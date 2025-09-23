@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript Functions Examples</title>
+</head>
+<body>
+<h1>Practical 4</h1>
+<div id="output"></div>
+
+<script>
+function print(msg) {
+    document.getElementById("output").innerHTML += msg + "<br>";
+}
+
+// 1. Function Declarations 
+// Example 1
+function greet() {
+    print("Hello, World!");
+}
+greet();
+
+// Example 2 – with parameters
+function add(a, b) {
+    return a + b;
+}
+let a1 = Number(prompt("Enter first number for add():"));
+let b1 = Number(prompt("Enter second number for add():"));
+print(add(a1, b1));
+
+// Example 3 – returning strings
+function welcome(name) {
+    return `Welcome, ${name}!`;
+}
+let name1 = prompt("Enter your name for welcome():");
+print(welcome(name1));
+
+// Example 4 – default parameter
+function multiply(a, b = 2) {
+    return a * b;
+}
+let m1 = Number(prompt("Enter first number for multiply():"));
+let m2 = prompt("Enter second number (optional for multiply):");
+m2 = m2 ? Number(m2) : undefined;
+print(multiply(m1, m2));
+
+
+/* 2. Function Expressions */
+
+// Example 1
+const greetExpr = function() {
+    print("Hello from expression!");
+};
+greetExpr();
+
+// Example 2 – sum
+const sum = function(a, b) {
+    return a + b;
+};
+let s1 = Number(prompt("Enter first number for sum():"));
+let s2 = Number(prompt("Enter second number for sum():"));
+print(sum(s1, s2));
+
+// Example 3 – anonymous inline
+setTimeout(function() {
+    print("Executed after 2 seconds");
+}, 2000);
+
+// Example 4 – named function expression
+const factorial = function fact(n) {
+    return n <= 1 ? 1 : n * fact(n - 1);
+};
+let f1 = Number(prompt("Enter number for factorial():"));
+print("Factorial: " + factorial(f1));
+
+
+/* 3. Arrow Functions */
+
+// Example 1
+const greetArrow = () => print("Hi from arrow function!");
+greetArrow();
+
+// Example 2 – single parameter
+const square = n => n * n;
+let sq1 = Number(prompt("Enter number to square:"));
+print("Square: " + square(sq1));
+
+// Example 3 – multiple parameters
+const addArrow = (a, b) => a + b;
+let aa1 = Number(prompt("Enter first number for addArrow():"));
+let aa2 = Number(prompt("Enter second number for addArrow():"));
+print(addArrow(aa1, aa2));
+
+// Example 4 – multiline
+const isEven = (num) => {
+    if (num % 2 === 0) return true;
+    return false;
+};
+let even1 = Number(prompt("Enter number to check even:"));
+print(even1 + " is even? " + isEven(even1));
+
+
+/* 4. Scope */
+
+let globalVar = "I am global";
+
+function testScope() {
+    let functionVar = "I am in a function";
+    print(globalVar);   // Accessible
+    print(functionVar); // Accessible
+}
+testScope();
+
+{
+    let blockVar = "I am block-scoped";
+    print(blockVar); // Accessible
+}
+</script>
+</body>
+</html>

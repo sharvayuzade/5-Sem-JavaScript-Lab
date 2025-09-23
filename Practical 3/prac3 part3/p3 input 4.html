@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="myForm">
+      <input type="number" name="marks" />
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      document.getElementById("myForm").addEventListener(
+        "submit", function(e) {
+          e.preventDefault(); // Prevent reload
+          let marks = this.marks.value;
+          alert("Marks entered: " + marks);
+        });
+    </script>
+  </body>
+</html>

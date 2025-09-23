@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <Script>
+let studentAges = [18, 20, 19, 21, 22];
+console.log("Original Ages Array:", studentAges);
+
+studentAges.push(23);
+console.log("After push(23):", studentAges);
+
+studentAges.pop();
+console.log("After pop():", studentAges);
+
+console.log("Final Ages Array length:", studentAges.length);
+
+let doubledAges = studentAges.map(age => age * 2);
+console.log("Doubled Ages (Single Param):", doubledAges);
+
+let doubledAgesWithIndex = studentAges.map((age, index) => {
+    return `Index ${index} has age ${age}, doubled is ${age * 2}`;
+});
+console.log("Doubled Ages (Two Params):", doubledAgesWithIndex);
+
+let cubedAges = studentAges.map(age => age ** 3);
+console.log("Cubed Ages:", cubedAges);
+
+console.log("\n--- Operations on String Array (Names) ---");
+
+let studentNames = ["Sharvayu", "Sushmit", "Sharvil", "Tanay", "shantanu"];
+console.log("Original Names Array:", studentNames);
+
+studentNames.push("Don");
+console.log("After push('Don'):", studentNames);
+
+studentNames.pop();
+console.log("After pop():", studentNames);
+
+console.log("Final Names Array length:", studentNames.length);
+
+let upperCaseNames = studentNames.map(name => name.toUpperCase());
+console.log("Uppercase Names (Single Param):", upperCaseNames);
+
+let formattedNames = studentNames.map((name, index) => {
+    return `Roll No. ${index + 1}: ${name}`;
+});
+console.log("Formatted Names (Two Params):", formattedNames);
+
+let nameLengthCubed = studentNames.map(name => `Length of '${name}' is ${name.length}, cube is ${name.length ** 3}`);
+console.log("Cube of Name Lengths:", nameLengthCubed);
+    </Script>
+    
+</body>
+</html>

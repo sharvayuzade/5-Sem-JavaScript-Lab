@@ -1,0 +1,4 @@
+<script>
+let name = prompt("Enter Name");
+alert("Your name is " + name);
+</script>

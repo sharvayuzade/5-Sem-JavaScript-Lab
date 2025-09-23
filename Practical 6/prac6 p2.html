@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let regex = /\d/; 
+console.log(regex.test("Hello123"));
+console.log(regex.test("Hello"));
+    </script>
+
+    <script>
+        let emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/; 
+console.log(emailRegex.test("student@example.com")); 
+console.log(emailRegex.test("student@.com"));
+    </script>
+
+    <Script>
+        let text = "JavaScript is fun!"; 
+let words = text.match(/\w+/g); 
+console.log(words);
+    </Script>
+
+    <Script>
+        let messy = "Hello World from JavaScript"; 
+let clean = messy.replace(/\s+/g, " "); 
+console.log(clean);
+
+    </Script>
+</body>
+</html>

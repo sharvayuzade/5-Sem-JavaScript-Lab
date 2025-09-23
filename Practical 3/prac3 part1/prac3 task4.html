@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prac3 Task4</title>
+</head>
+<body>
+    <script>
+let eb = 1000;
+let transaction = prompt("Transaction type batao (withdraw/deposit/balance): ");
+
+if (transaction == "withdraw") {
+  let a = parseInt(prompt("Kitna paisa nikaalna hai: "));
+  if (a < eb) {
+    eb -= a;
+    alert(`Paisa successfully nikal liya. Apka naya balance hai: ${eb}`);
+  } else {
+    alert("Aapke paas paisa nahi hai");
+  }
+} else if (transaction == "deposit") {
+  let a = parseInt(prompt("Kitna paisa jama karna hai: "));
+  eb += a;
+  alert(`Paisa successfully jama ho gaya. Apka naya balance hai: ${eb}`);
+} else if (transaction == "balance") {
+  alert(`Apka current balance hai: ${eb}`);
+} else {
+  alert("ye kya daldiya bhai ye sab nahi hota humare bank mein");
+}
+    </script>
+</body>
+</html>

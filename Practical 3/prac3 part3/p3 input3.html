@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="liveInput" placeholder="Type something">
+    <p id="display"></p>
+    <script>
+      document.getElementById("liveInput").addEventListener("keyup",
+        function() {
+          document.getElementById("display").innerText = this.value;
+        });
+    </script>
+  </body>
+</html>

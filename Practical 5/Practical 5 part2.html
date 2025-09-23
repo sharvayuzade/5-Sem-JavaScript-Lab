@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let students = [
+    { id: 1, name: "Sharvil", marks: 85 },
+    { id: 2, name: "Sushmit", marks: 45 },
+    { id: 3, name: "Sharvayu", marks: 92 },
+    { id: 4, name: "Tanay", marks: 78 },
+    { id: 5, name: "Shantanu", marks: 34 }
+];
+console.log("Original Student Data:", students);
+
+let studentNamesList = students.map(student => student.name);
+console.log("\nStudent Names (Single Param):", studentNamesList);
+
+let studentRanks = students.map((student, index) => `${index + 1}. ${student.name}`);
+console.log("Student List with Rank (Two Params):", studentRanks);
+
+let highScorers = students.filter(student => student.marks > 50);
+console.log("\nStudents with marks > 50 (Single Param):", highScorers);
+
+let highScorersWithIndex = students.filter((student, index) => {
+    console.log(`Checking Index ${index}: ${student.name} (${student.marks} marks)`);
+    return student.marks > 50;
+});
+console.log("Filtered High Scorers (using Two Params):", highScorersWithIndex);
+
+let totalMarks = students.reduce((sum, student) => sum + student.marks, 0);
+let averageMarks = totalMarks / students.length;
+console.log(`\nTotal Marks: ${totalMarks}`);
+console.log(`Average Marks: ${averageMarks.toFixed(2)}`);
+
+console.log("\n Report Card (Single Param)");
+students.forEach(student => {
+    let result = student.marks > 50 ? "Pass" : "Fail";
+    console.log(`Name: ${student.name}, Marks: ${student.marks}, Result: ${result}`);
+});
+
+console.log("\nReport Card with Serial No. (Two Params)");
+students.forEach((student, index) => {
+    let result = student.marks > 50 ? "Pass" : "Fail";
+    console.log(`${index + 1}. Name: ${student.name} | Marks: ${student.marks} | Result: ${result}`);
+});
+    </script>
+</body>
+</html>

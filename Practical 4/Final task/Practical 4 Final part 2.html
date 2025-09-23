@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 4 Final Part 2</title>
+</head>
+<body>
+    <Script>
+        //1st
+        function reverseNumber(num) {
+  try {
+    if (isNaN(num)) {
+      throw new Error("Invalid input: Not a number.");
+    }
+    const isNegative = num < 0;
+    const numStr = Math.abs(num).toString();
+    const reversedStr = numStr.split('').reverse().join('');
+    const reversedNum = parseInt(reversedStr, 10);
+    return isNegative ? -reversedNum : reversedNum;
+  } catch (error) {
+    return error.message;
+  }
+}
+console.log(reverseNumber(-1234));
+console.log(reverseNumber(5678));
+console.log(reverseNumber("hello"));
+    </Script>
+
+    <Script>
+        //2nd
+        function isPalindrome(num) {
+  if (num < 0 || isNaN(num)) {
+      return false;
+  }
+  return num === reverseNumber(num);
+}
+
+console.log(isPalindrome(1221));
+console.log(isPalindrome(12345));
+console.log(isPalindrome(-101));
+</Script>
+
+<Script>
+    //3rd
+    function isWordPalindrome(str) {
+    if (typeof str !== 'string') {
+        return false;
+    }
+    const cleanedStr = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const reversedStr = cleanedStr.split('').reverse().join('');
+    return cleanedStr === reversedStr;
+}
+
+console.log(isWordPalindrome("Madam"));
+console.log(isWordPalindrome("Race car"));
+console.log(isWordPalindrome("hello world"));
+</Script>
+
+<Script>
+    //4th
+    function calculateSqrt(num) {
+  try {
+    if (isNaN(num)) {
+      throw new Error("Invalid input: Please provide a number.");
+    }
+    if (num < 0) {
+      throw new Error("Error: Negative numbers do not have a real square root.");
+    }
+    return Math.sqrt(num);
+  } catch (error) {
+    return error.message;
+  }
+}
+console.log(calculateSqrt(9));
+console.log(calculateSqrt(-9));
+console.log(calculateSqrt("test"));
+</Script>
+
+<Script>
+    //5th
+    const isPrime = (num) => {
+  try {
+    if (!Number.isInteger(num)) {
+      throw new Error("Invalid input: Please provide an integer.");
+    }
+    if (num <= 1) {
+      return false;
+    }
+    for (let i = 2, s = Math.sqrt(num); i <= s; i++) {
+      if (num % i === 0) {
+        return false;
+      }
+    }
+    return true;
+  } catch (error) {
+    return error.message;
+  }
+};
+console.log(isPrime(7));
+console.log(isPrime(10));
+console.log(isPrime(1));
+console.log(isPrime(-5));
+</Script>
+</body>
+</html>

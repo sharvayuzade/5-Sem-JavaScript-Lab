@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prac3 Task6</title>
+</head>
+<body>
+    <script>
+let health = prompt("Enter player's health (0-100): ");
+let reputation = prompt("Enter player's reputation (-50 to +50): ");
+let inventory = prompt("Enter player's inventory items (comma separated): ");
+
+health = parseInt(health);
+reputation = parseInt(reputation);
+inventory = inventory.split(",");
+
+let npcReaction = "";
+
+if (health < 30 && reputation > 20) {
+  npcReaction = "The NPC will help the player.";
+} else if (reputation < -40 && inventory.includes("legendary item")) {
+  npcReaction = "The NPC is cautious but won't attack.";
+} else if (health > 80 && reputation < -20) {
+  npcReaction = "The NPC is hostile.";
+} else {
+  npcReaction = "The NPC is neutral.";
+}
+
+alert("NPC Ki Pratikriya Hai: " + npcReaction);
+
+let playerPreviousHealth = prompt("Enter player's previous health: ");
+let playerAttackedNpc = prompt("Did the player attack the NPC? (yes/no): ");
+
+if (playerPreviousHealth < 30 && playerPreviousHealth != health && playerAttackedNpc == "yes") {
+  alert("Chaliye Ab Iska Matlab Yeh Hai: The NPC is still cautious.");
+} else {
+  alert("The NPC's reaction remains the same.");
+}
+    </script>
+</body>
+</html>

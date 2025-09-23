@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function analyzeData(input) {
+    if (input === null) {
+        console.log('null');
+        return;
+    }
+    
+    if (input === undefined) {
+        console.log('undefined');
+        return;
+    }
+    
+    if (Array.isArray(input)) {
+        console.log('array');
+        return;
+    }
+    
+    if (input && input.call && input.apply) {
+        console.log('function');
+        return;
+    }
+    
+    if (input && input.charAt && input.substring && input.length !== undefined) {
+        console.log('string');
+        return;
+    }
+    
+    if (input === input && (input + 0) === input && isFinite(input)) {
+        console.log('number');
+        return;
+    }
+    
+    if (input === true || input === false) {
+        console.log('boolean');
+        return;
+    }
+    
+    if (input && input.toString && input.toString().endsWith('n')) {
+        console.log('bigint');
+        return;
+    }
+    
+    if (input && input.toString && input.toString().startsWith('Symbol(')) {
+        console.log('symbol');
+        return;
+    }
+    
+    if (input && input.constructor && input.hasOwnProperty) {
+        console.log('object');
+        return;
+    }
+    
+    console.log('unknown');
+}
+
+analyzeData('Hello');
+analyzeData(42);
+analyzeData(true);
+analyzeData(undefined);
+analyzeData(null);
+analyzeData(Symbol('test'));
+analyzeData(123n);
+analyzeData([1, 2, 3]);
+analyzeData({ name: 'John' });
+analyzeData(function() {});
+    </script>
+</body>
+</html>

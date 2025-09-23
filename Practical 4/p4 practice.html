@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 4 Practice</title>
+</head>
+<body>
+    <Script>
+        // Function Declaration - ek function banaya jo name leta h aur "Hello <name>" print karta h
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
+greet("Sharvayu");
+greet("Sharvil");
+greet("Sushmit");
+
+// Function Expression - do numbers ka sum return kar rha
+const add = function (a, b) {
+  return a + b;
+};
+console.log(add(2, 3));
+console.log(add(10, 15));
+console.log(add(-5, 8));
+
+// Arrow Function - ek number ka square return kar rha
+const square = (n) => n * n;
+console.log(square(2));
+console.log(square(5));
+console.log(square(10));
+
+// Function Declaration with Default Parameter - default language English h
+function greetLang(name, lang = "English") {
+  if (lang === "English") console.log(`Hello, ${name}!`);
+  else if (lang === "Spanish") console.log(`Hola, ${name}!`);
+  else if (lang === "French") console.log(`Bonjour, ${name}!`);
+  else console.log(`Hello, ${name}!`);
+}
+greetLang("Sharvayu", "Spanish");
+greetLang("Sharvil");
+greetLang("Sushmit", "French");
+
+// Function Expression – Celsius to Fahrenheit convert karta h
+const cToF = function (c) {
+  return (c * 9) / 5 + 32;
+};
+console.log(cToF(0));
+console.log(cToF(25));
+console.log(cToF(100));
+
+// Arrow Function – word count nikalta h
+const wordCount = (str) => str.trim().split(/\s+/).length;
+console.log(wordCount("JavaScript bohot aasan hai"));
+console.log(wordCount("Hello"));
+console.log(wordCount("Testing testing 123"));
+
+// Simple Closure – ek note store karta h aur baad me read karne ka option deta h
+function createNote(note) {
+  return function () {
+    return note;
+  };
+}
+const myNote = createNote("Padhna mat bhulna!");
+console.log(myNote());
+
+    </Script>
+
+    <script>
+        // Scope Practice - ek global variable aur ek block scoped variable banaya
+let globalVar = "global";
+{
+  let blockVar = "block-scoped";
+  console.log(globalVar); 
+  console.log(blockVar);  
+}
+function testScope() {
+  console.log(globalVar); 
+  // console.log(blockVar); 
+}
+testScope();
+
+// Function Expression + Recursion – fibonacci number nikalne ke liye
+const fibonacci = function fib(n) {
+  if (n <= 1) return n;
+  return fib(n - 1) + fib(n - 2);
+};
+console.log(fibonacci(6));  
+console.log(fibonacci(10)); 
+
+// Arrow Function – check karta h string "!" se end ho rahi h ya nahi
+const endsWithExclamation = (str) => str.endsWith("!");
+console.log(endsWithExclamation("Hello!")); 
+console.log(endsWithExclamation("Hello"));
+
+// Simple Closure – ek greeter banaya jo message store karke baad me print karega
+function createGreeter(message) {
+  return function () {
+    console.log(message);
+  };
+}
+const greetHello = createGreeter("Hello bhai welcome!");
+greetHello();
+
+// Scope Example – variable shadowing dikhaya
+let name = "GlobalName";
+function showName() {
+  let name = "LocalName";
+  console.log(name); 
+}
+showName();
+console.log(name); 
+
+// Function Expression – string ko reverse karta h bina reverse() use kiye
+const reverseString = function (str) {
+  let rev = "";
+  for (let i = str.length - 1; i >= 0; i--) {
+    rev += str[i];
+  }
+  return rev;
+};
+console.log(reverseString("JavaScript"));
+console.log(reverseString("Hello"));
+
+// Arrow Function – check karta h number even aur positive dono h ya nahi
+const isEvenPositive = (num) => num % 2 === 0 && num > 0;
+console.log(isEvenPositive(4));  // true
+console.log(isEvenPositive(-2)); // false
+console.log(isEvenPositive(3));  // false
+
+// Closure – ek counter banaya jo count karega ki ek naam kitni baar aya
+function nameCounter() {
+  let counts = {};
+  return function (person) {
+    counts[person] = (counts[person] || 0) + 1;
+    return `${person}: ${counts[person]}`;
+  };
+}
+const counter = nameCounter();
+console.log(counter("Alice"));
+console.log(counter("Bob"));
+console.log(counter("Alice"));
+console.log(counter("Alice"));
+
+    </script>
+
+    <Script>
+        // Closure Counter – increment, decrement, reset ke options deta h
+function createCounter() {
+  let count = 0;
+  return {
+    increment: () => ++count,
+    decrement: () => --count,
+    reset: () => (count = 0),
+    value: () => count,
+  };
+}
+const counterObj = createCounter();
+console.log(counterObj.increment());
+console.log(counterObj.increment());
+console.log(counterObj.decrement());
+console.log(counterObj.reset());
+
+// Closure – Bank Account jiska balance private hai
+function createBankAccount(initialBalance = 0) {
+  let balance = initialBalance;
+  return {
+    deposit: (amount) => (balance += amount),
+    withdraw: (amount) => (balance -= amount),
+    checkBalance: () => balance,
+  };
+}
+const myAccount = createBankAccount(100);
+myAccount.deposit(50);
+console.log(myAccount.checkBalance());
+myAccount.withdraw(30);
+console.log(myAccount.checkBalance()); 
+// console.log(myAccount.balance); direct access nahi mil rha 
+
+// Mixed Function Types – random number generate, prime check aur print
+function getRandomNumber() {
+  return Math.floor(Math.random() * 100) + 1;
+}
+const isPrime = function (num) {
+  if (num < 2) return false;
+  for (let i = 2; i <= Math.sqrt(num); i++) {
+    if (num % i === 0) return false;
+  }
+  return true;
+};
+const printPrimeStatus = (num) =>
+  console.log(isPrime(num) ? "Prime hai" : "Prime nahi hai");
+
+let randomNum = getRandomNumber();
+console.log("Random Number:", randomNum);
+printPrimeStatus(randomNum);
+
+// Scope Chain Debugging – outer, middle aur inner function ka variable access dikhaya
+function outer() {
+  let x = "outer";
+  function middle() {
+    let x = "middle";
+    function inner() {
+      let x = "inner";
+      console.log(x); // inner print karega
+    }
+    inner();
+  }
+  middle();
+}
+outer();
+// 👉 Lexical scope ki wajah se inner ka variable sabse pehle use hota h
+
+    </Script>
+</body>
+</html>

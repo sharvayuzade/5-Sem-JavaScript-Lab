@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prac3 Task2</title>
+</head>
+<body>
+    <script>
+        let dayOfWeek = prompt("Enter the day of the week (e.g., Monday, Tuesday, etc.):");
+
+let dayMessage;
+
+switch (dayOfWeek.toLowerCase()) {
+  case "monday":
+    dayMessage = "Aaj Monday hai, hafte ki shuruaat ho gayi!";
+    break;
+  case "tuesday":
+    dayMessage = "Aaj Tuesday hai, kaam chal raha hai!";
+    break;
+  case "wednesday":
+    dayMessage = "Aaj Wednesday hai, hafte ka beech mein hum hai!";
+    break;
+  case "thursday":
+    dayMessage = "Aaj Thursday hai, kal aur aaj ka intezaar tha!";
+    break;
+  case "friday":
+    dayMessage = "Aaj Friday hai, weekend ka intezaar hai!";
+    break;
+  case "saturday":
+    dayMessage = "Aaj Saturday hai, weekend ki party hai!";
+    break;
+  case "sunday":
+    dayMessage = "Aaj Sunday hai, rest ka din hai!";
+    break;
+  default:
+    dayMessage = "aisa koi din nai hota phirse daal";
+}
+
+console.log(dayMessage);
+alert(dayMessage);
+    </script>
+</body>
+</html>

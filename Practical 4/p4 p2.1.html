@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 4 Part 2 </title>
+</head>
+<body>
+    <script>
+        try 
+{ 
+let result = 10 / 0; 
+if (!isFinite(result)) throw new Error("Cannot divide by zero!"); 
+console.log(result); 
+} 
+catch (err) { 
+console.log("Error:", err.message); 
+} 
+  </script>
+    <script>
+        try 
+{ 
+let data = JSON.parse("invalid json"); 
+} 
+catch (err)
+{ 
+console.log("JSON Parse Error:", err.message); } 
+
+    </script>
+    <script>
+function checkAge(age) {
+    if (age < 18) throw new Error("You must be 18+");
+    return "Access granted";
+}
+try {
+    console.log(checkAge(16));
+} catch (err) {
+    console.log(err.message);
+}
+</script>
+<script>
+try {
+    let fileOpen = true;
+    console.log("Opening file...");
+    // Simulate an error
+    throw new Error("File read error!");
+    console.log("Reading file..."); // this line will not run
+} catch (err) {
+    console.log("Error:", err.message);
+} finally {
+    console.log("Closing file (cleanup)...");
+}
+</script>
+
+<Script>
+    function reverseNumber(num) 
+{ 
+if (typeof num !== "number" || isNaN(num)) 
+{ 
+throw new Error("Invalid number input"); 
+} 
+return parseInt(num.toString().split("").reverse().join("")); } 
+function isPalindrome(num) { 
+return num === reverseNumber(num); 
+} 
+try { 
+let num = 1221; 
+console.log("Reversed:", reverseNumber(num)); console.log("Is Palindrome:", isPalindrome(num)); } catch (err) { 
+console.log("Error:", err.message); 
+} 
+
+</Script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prac3 Task5</title>
+</head>
+<body>
+    <script>
+let sentimentScore = prompt("Enter your sentiment score (-10 to 10): ");
+let keyword = prompt("Enter a contextual keyword (e.g., 'tired', 'excited', 'confused'): ");
+
+if (keyword == "") {
+  if (sentimentScore > 0) {
+    alert("Aapka mood accha hai! Kaise ho?");
+  } else if (sentimentScore < 0) {
+    alert("Aapka mood thoda down hai. Kya baat hai?");
+  } else {
+    alert("Aapka mood samajh nahi aya. Kya aap kuch kehna chahte hain?");
+  }
+} else {
+  if (sentimentScore > 5) {
+    if (keyword == "tired") {
+      alert("Aap thode tired hain, lekin aapka mood accha hai! Kuch rest lijiye.");
+    } else if (keyword == "excited") {
+      alert("Aap bahut excited hain! Kya baat hai?");
+    } else {
+      alert(`Aap ${keyword} hain aur aapka mood accha hai!`);
+    }
+  } else if (sentimentScore < -5) {
+    if (keyword == "confused") {
+      alert("Aap confused aur thoda down hain. Main aapki madad karne ki koshish kar raha hoon.");
+    } else if (keyword == "tired") {
+      alert("Aap thode tired aur down hain. Kuch rest lijiye.");
+    } else {
+      alert(`Aap ${keyword} hain aur aapka mood thoda down hai`);
+    }
+  } else {
+    if (keyword == "confused") {
+      alert("Aap confused hain aur wahi raho ");
+    } else if (keyword == "tired") {
+      alert("Aap thode tired hain kuch rest karlijiye");
+    } else if (keyword == "excited") {
+      alert(`Aap ${keyword} hain!`);
+    } else {
+      alert(`Aap ${keyword} hain par aapka mood theek hai`);
+    }
+  }
+}
+    alert("task toh itna hi tha baki aap dimag ke doctor ko dikhao");
+    </script>
+</body>
+</html>

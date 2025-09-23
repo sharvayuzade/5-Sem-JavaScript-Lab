@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let s = "Hello";
+        s[0] = "Y";
+        console.log(s);
+
+        let text = "Welcome to JavaScript Lab";
+        let pos = text.indexOf("JavaScript");
+        console.log(pos);
+
+        let sentence = "HTML,CSS,JavaScript,Python";
+        let parts = sentence.split(",");
+        console.log(parts);
+
+        let quote = "I like cats";
+        let newQuote = quote.replace("cats", "dogs");
+        console.log(newQuote);
+
+        let word = "JavaScript";
+        console.log(word.slice(0, 4));
+
+        function countVowels(str) {
+            let vowels = "aeiouAEIOU";
+            let count = 0;
+            for (let char of str) {
+                if (vowels.includes(char)) count++;
+            }
+            return count;
+        }
+        console.log(countVowels("Hello World"));
+
+        console.log("===============Tasks start here================");
+    </script>
+    <Script>
+        function formatName(name) {
+  const trimmed = name.trim().toLowerCase();
+  const words = trimmed.split(' ');
+  const capitalizedWords = words.map(word =>
+    word.charAt(0).toUpperCase() + word.slice(1)
+  );
+  return capitalizedWords.join(' ');
+}
+
+const inputName = " jOhN doE ";
+const formattedName = formatName(inputName);
+console.log(formattedName);
+    </Script>
+
+    <Script>
+        function reverseString(str) {
+  return str.split('').reverse().join('');
+}
+
+const originalString = "JavaScript";
+const reversedString = reverseString(originalString);
+console.log(reversedString);
+    </Script>
+
+    <Script>
+        function validateEmail(email) {
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  return emailRegex.test(email);
+}
+
+const validEmail = "student@example.com";
+const invalidEmail = "student@example";
+
+console.log(`Is "${validEmail}" a valid email?`, validateEmail(validEmail));
+console.log(`Is "${invalidEmail}" a valid email?`, validateEmail(invalidEmail));
+    </Script>
+
+    <Script>
+        function normalizeSpaces(str) {
+  return str.replace(/\s+/g, ' ');
+}
+
+const messyString = "JavaScript    is   fun";
+const cleanString = normalizeSpaces(messyString);
+console.log(cleanString);
+    </Script>
+
+    <Script>
+        function countWords(sentence) {
+    const trimmedSentence = sentence.trim();
+
+    if (trimmedSentence === "") {
+        return 0;
+    }
+
+    const words = trimmedSentence.split(/\s+/);
+    return words.length;
+}
+
+const mySentence = "  Hello world, welcome to the JavaScript lab  ";
+const wordCount = countWords(mySentence);
+console.log(wordCount);
+    </Script>
+</body>
+</html>

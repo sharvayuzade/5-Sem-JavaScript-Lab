@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 7: DOM Manipulation</title>
+</head>
+<body>
+    <div class="container">
+        <h1>My To-Do List 📝</h1>
+        
+        <div class="input-area">
+            <input type="text" id="taskInput" placeholder="Enter a new task...">
+            <button id="addButton">Add Task</button>
+        </div>
+        
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addButton = document.getElementById('addButton');
+        const taskList = document.getElementById('taskList');
+
+        function addTask() {
+            const taskText = taskInput.value.trim();
+
+            if (taskText === "") {
+                alert("Please enter a task!");
+                return;
+            }
+
+            const li = document.createElement('li');
+
+            const taskSpan = document.createElement('span');
+            taskSpan.className = 'task-text';
+            taskSpan.textContent = taskText;
+            
+            const buttonsDiv = document.createElement('div');
+
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.className = 'btn edit-btn';
+            
+            editButton.onclick = function() {
+                const newTaskText = prompt("Edit your task:", taskSpan.textContent);
+                if (newTaskText !== null && newTaskText.trim() !== "") {
+                    taskSpan.textContent = newTaskText.trim();
+                }
+            };
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.className = 'btn delete-btn';
+
+            deleteButton.onclick = function() {
+                taskList.removeChild(li);
+            };
+            
+            li.appendChild(taskSpan);
+            buttonsDiv.appendChild(editButton);
+            buttonsDiv.appendChild(deleteButton);
+            li.appendChild(buttonsDiv);
+            
+            taskList.appendChild(li);
+
+            taskInput.value = "";
+        }
+
+        addButton.addEventListener('click', addTask);
+
+        taskInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                addTask();
+            }
+        });
+    </script>
+
+</body>
+</html>

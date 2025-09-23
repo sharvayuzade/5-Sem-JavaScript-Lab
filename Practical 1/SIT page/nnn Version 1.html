@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT Nagpur - Student Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .popup {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            animation: popupSlide 0.5s ease-out;
+        }
+        
+        @keyframes popupSlide {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .table-hover:hover {
+            background-color: #f8fafc;
+            transform: translateY(-1px);
+            transition: all 0.2s ease;
+        }
+    
+        .college-logo {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+        
+        .decoration-element {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Welcome Popup -->
+    <div id="welcomePopup" class="popup-overlay">
+        <div class="popup">
+            <div class="college-logo mx-auto mb-4">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/Logo_of_Symbiosis_International_University.svg/800px-Logo_of_Symbiosis_International_University.svg.png" alt="SIT Nagpur Logo" class="w-20 h-20">
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Welcome to SIT Nagpur!</h2>
+            <p class="text-gray-600 mb-6">Symbiosis Institute of Technology, Nagpur</p>
+            <button onclick="closePopup()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                Enter Portal
+            </button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="gradient-bg text-white py-8 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="college-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/Logo_of_Symbiosis_International_University.svg/800px-Logo_of_Symbiosis_International_University.svg.png" alt="SIT Nagpur Logo" class="w-20 h-20">
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold">SIT Nagpur</h1>
+                        <p class="text-blue-100">Symbiosis Institute of Technology</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <div class="text-center">
+                        <div class="text-2xl mb-1">🏆</div>
+                        <p class="text-sm">Excellence</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl mb-1">🌟</div>
+                        <p class="text-sm">Innovation</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl mb-1">🚀</div>
+                        <p class="text-sm">Entrepreneurship</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Welcome Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-gray-800">Student Information Portal</h2>
+                <div class="flex space-x-2">
+                    <span class="text-2xl">👨‍🎓</span>
+                    <span class="text-2xl">👩‍🎓</span>
+                </div>
+            </div>
+            <p class="text-gray-600">Access comprehensive student records and academic information</p>
+        </div>
+
+        <!-- Student Information Table -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
+                <h3 class="text-xl font-semibold flex items-center">
+                    <span class="mr-2">📋</span>
+                    Student Database
+                </h3>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Roll No</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Department</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Year</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">Resume</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="table-hover">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900">SIT033</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <div class="flex items-center">
+                                    Sukhada Bhoyar
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Computer Science</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">3rd Year</td>
+                            <td class="px-6 py-4 text-sm">
+                                <a href="https://drive.google.com/file/d/1ZCN7vRGjL9TwlH_A1Ea6fX3qpwkMU7G7/view?usp=drive_link" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-xs font-medium transition-colors">
+                                    📄 View Resume
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="table-hover">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900">SIT063</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <div class="flex items-center">
+                                    Aarya Jawanjal
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-medium">Computer Science</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">3rd Year</td>
+                            <td class="px-6 py-4 text-sm">
+                                <a href="https://drive.google.com/file/d/1ZCN7vRGjL9TwlH_A1Ea6fX3qpwkMU7G7/view?usp=drive_link" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-xs font-medium transition-colors">
+                                    📄 View Resume
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="table-hover">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900">SIT003</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <div class="flex items-center">
+                                    Aarya Bhende
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">Computer Science</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">3rd Year</td>
+                            <td class="px-6 py-4 text-sm">
+                                <a href="https://drive.google.com/file/d/1ZCN7vRGjL9TwlH_A1Ea6fX3qpwkMU7G7/view?usp=drive_link" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-xs font-medium transition-colors">
+                                    📄 View Resume
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="table-hover">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900">SIT083</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <div class="flex items-center">
+                                    Madhura Hawelikar
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">Computer Science</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">3rd Year</td>
+                            <td class="px-6 py-4 text-sm">
+                                <a href="https://drive.google.com/file/d/1ZCN7vRGjL9TwlH_A1Ea6fX3qpwkMU7G7/view?usp=drive_link" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-xs font-medium transition-colors">
+                                    📄 View Resume
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="table-hover">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900">SIT014</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <div class="flex items-center">
+                                    Aniruddha Kale
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs font-medium">Computer Science</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">3rd Year</td>
+                            <td class="px-6 py-4 text-sm">
+                                <a href="https://drive.google.com/file/d/1ZCN7vRGjL9TwlH_A1Ea6fX3qpwkMU7G7/view?usp=drive_link" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-xs font-medium transition-colors">
+                                    📄 View Resume
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="table-hover">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900">SIT053</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <div class="flex items-center">
+                                    Gargi Balamwar
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">
+                                <span class="bg-pink-100 text-pink-800 px-2 py-1 rounded-full text-xs font-medium">Computer Science</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700">3rd Year</td>
+                            <td class="px-6 py-4 text-sm">
+                                <a href="https://drive.google.com/file/d/1ZCN7vRGjL9TwlH_A1Ea6fX3qpwkMU7G7/view?usp=drive_link" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-xs font-medium transition-colors">
+                                    📄 View Resume
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="text-3xl mb-2">👥</div>
+                <h4 class="text-2xl font-bold text-gray-800">2,500+</h4>
+                <p class="text-gray-600">Students</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="text-3xl mb-2">🎯</div>
+                <h4 class="text-2xl font-bold text-gray-800">95%</h4>
+                <p class="text-gray-600">Placement Rate</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="text-3xl mb-2">🏢</div>
+                <h4 class="text-2xl font-bold text-gray-800">200+</h4>
+                <p class="text-gray-600">Partner Companies</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="text-3xl mb-2">🌟</div>
+                <h4 class="text-2xl font-bold text-gray-800">4.8/5</h4>
+                <p class="text-gray-600">Student Rating</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="college-logo text-sm">                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/Logo_of_Symbiosis_International_University.svg/800px-Logo_of_Symbiosis_International_University.svg.png" alt="SIT Nagpur Logo" class="w-20 h-20"></div>
+                        <h5 class="text-lg font-semibold">SIT Nagpur</h5>
+                    </div>
+                    <p class="text-gray-300">Constituent of Symbiosis International (Deemed University), Pune</p>
+                </div>
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">Quick Links</h5>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition-colors">📚 Academics</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">🏆 Admissions</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">🎯 Placements</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">📞 Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-semibold mb-4">Contact Info</h5>
+                    <div class="space-y-2 text-gray-300">
+                        <p>📍 Symbiosis Institute of Technology Wathoda, Nagpur - 440008</p>
+                        <p>📞 +91 982 335 6929</p>
+                        <p>✉️ btechadmissionsnagpur@siu.edu.in</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 SIT Nagpur. All rights reserved. | Empowering minds, building futures 🚀</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function closePopup() {
+            document.getElementById('welcomePopup').style.display = 'none';
+        }
+
+        // Show popup on page load
+        window.addEventListener('load', function() {
+            document.getElementById('welcomePopup').style.display = 'flex';
+        });
+
+        // Add click functionality to resume links
+        document.querySelectorAll('a[href="#"]').forEach(link => {
+            if (link.textContent.includes('View Resume')) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Resume viewing feature - This would open the student\'s resume in a new window.');
+                });
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'95bd95bc43da7f5c',t:'MTc1MTk1Njc3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

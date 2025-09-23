@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript Part 1 Tasks</title>
+</head>
+<body>
+<h1>JavaScript Tasks Output</h1>
+<div id="output"></div>
+
+<script>
+function print(msg) {
+    document.getElementById("output").innerHTML += msg + "<br>";
+}
+
+//1
+function greaterNumber(num1, num2) {
+    return (num1 > num2) ? num1 : num2;
+}
+let g1 = Number(prompt("Enter first number:"));
+let g2 = Number(prompt("Enter second number:"));
+print("Greater number: " + greaterNumber(g1, g2));
+
+//2
+const factorial = function(n) {
+    return n <= 1 ? 1 : n * factorial(n - 1);
+};
+let f1 = Number(prompt("Enter number for factorial:"));
+print("Factorial of " + f1 + ": " + factorial(f1));
+
+//3
+const containsJavaScript = str => str.includes("JavaScript");
+let str1 = prompt("Enter a string to check for 'JavaScript':");
+print("Contains 'JavaScript'? " + containsJavaScript(str1));
+
+
+//4
+function secretClosure() {
+    let secret = "This is the secret message!";
+    let password = "1234";
+    return function(pass) {
+        return pass === password ? secret : "Incorrect password!";
+    };
+}
+let getSecret = secretClosure();
+let passInput = prompt("Enter password to view secret message:");
+print(getSecret(passInput));
+
+</script>
+</body>
+</html>

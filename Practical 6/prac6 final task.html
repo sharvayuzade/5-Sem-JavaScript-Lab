@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let resumeKaText = ` 
+ Name: jOhN doE 
+ Email: john.doe@Example.com  
+ Phone: 9876543210  
+
+ Skills: HTML, CSS, JavaScript, Python, SQL  
+ Extra: Contact me at john.altmail@example.org 
+ #developer #coder 
+`;
+
+function formatName(rawName) {
+    if (!rawName) return "N/A";
+    const cleanedName = rawName.trim().toLowerCase();
+    const words = cleanedName.split(/\s+/);
+    const formattedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+    return formattedWords.join(' ');
+}
+
+function extractEmails(text) {
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+    const matches = text.match(emailRegex);
+    return matches || [];
+}
+
+function validateMobile(number) {
+    if (!number) return "N/A";
+    const mobileRegex = /^[6-9]\d{9}$/;
+    if (mobileRegex.test(number.trim())) {
+        return number.trim();
+    } else {
+        return "Galat phone number";
+    }
+}
+
+function processSkills(rawSkills) {
+    if (!rawSkills) return [];
+    const skillsArray = rawSkills.split(',');
+    return skillsArray.map(skill => skill.trim());
+}
+
+function extractHashtags(text) {
+    const hashtagRegex = /#\w+/g;
+    const matches = text.match(hashtagRegex);
+    return matches || [];
+}
+
+function countWords(text) {
+    const words = text.match(/\S+/g);
+    return words ? words.length : 0;
+}
+
+function countVowels(text) {
+    const vowels = text.match(/[aeiou]/gi);
+    return vowels ? vowels.length : 0;
+}
+
+function processResume(resumeText) {
+    let output = {};
+
+    const nameMatch = resumeText.match(/Name:\s*(.*)/i);
+    const rawName = nameMatch ? nameMatch[1] : null;
+    output.name = formatName(rawName);
+
+    let emails = extractEmails(resumeText);
+    output.email = emails.length > 0 ? emails[0].toLowerCase() : "N/A";
+    output.emailCount = emails.length;
+
+    const phoneMatch = resumeText.match(/Phone:\s*(\d+)/i);
+    const rawPhone = phoneMatch ? phoneMatch[1] : null;
+    output.phone = validateMobile(rawPhone);
+
+    const skillsMatch = resumeText.match(/Skills:\s*(.*)/i);
+    const rawSkills = skillsMatch ? skillsMatch[1] : null;
+    output.skills = processSkills(rawSkills);
+
+    output.hashtags = extractHashtags(resumeText);
+    output.wordCount = countWords(resumeText);
+    output.vowelCount = countVowels(resumeText);
+
+    return output;
+}
+
+console.log("Pehle Resume ka Output");
+console.log(processResume(resumeKaText));
+
+let pehlaResume = ` 
+ Name: jOhN doE  
+ Email: john.doe@Example.com  
+ Phone: 9876543210  
+
+ Skills: HTML, CSS, JavaScript, Python, SQL  
+ Extra: Contact me at john.altmail@example.org 
+ #developer #coder 
+`;
+console.log("\nTest Case 1: Normal Wala");
+console.log(processResume(pehlaResume));
+
+let doosraResume = ` 
+Name: aLIcE SMiTH  
+Email: alice.smith@work.com  
+Phone: 1234567890  
+
+Skills: C, C++ ,Java, JavaScript  
+Extra Info: Reach me also at alice.backup@mail.org 
+#programmer #techie 
+`;
+console.log("\nTest Case 2: Galat Phone Number Wala");
+console.log(processResume(doosraResume));
+
+let teesraResume = ` 
+ Name: ROBERT broWn 
+ Email: robert_brown@example.com 
+ Phone: 8765432109  
+ Skills: PHP,MySQL, HTML ,CSS, JavaScript  
+ Other: robert.personal@domain.org robert.dev@github.com 
+ #fullstack #developer #javascript #100DaysOfCode 
+`;
+console.log("\nTest Case 3: Ek se Zyada Emails Wala");
+console.log(processResume(teesraResume));
+
+let chauthaResume = ` 
+Random Text: Ignore this line  
+
+Name: keVin o'CONNOR 
+Email: kevin.oConnor@Mail.com  
+Phone: 7894561230  
+Skills: Python, Machine Learning, Data Science , AI  
+
+ Extra Notes: You can also contact: kevin.backup123@mail.org 
+ #AI #MachineLearning #DataScience #coder 
+`;
+console.log("\nTest Case 4: Ajeeb Input Wala");
+console.log(processResume(chauthaResume));
+    </script>
+</body>
+</html>

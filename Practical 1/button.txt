@@ -1,0 +1,7 @@
+<html>
+<head><title>Inline JS</title></head>
+<body>
+<button onclick="alert('Hello from Inline JavaScript!')">Click
+Me</button>
+</body>
+</html>

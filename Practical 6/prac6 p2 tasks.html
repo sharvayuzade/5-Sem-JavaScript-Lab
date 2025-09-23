@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 6 part 2 tasks</title>
+</head>
+<body>
+    <script>
+        console.log('/^Hi/.test("Hi my name is Sharvayu")', /^Hi/.test("Hi my name is Sharvayu"));
+        console.log('/cat$/.test("my pet is a cat")', /cat$/.test("my pet is a cat"));
+        console.log('/cat$/.test("the cat runs fast")', /cat$/.test("the cat runs fast"));
+        console.log('/c.t/.test("cut")', /c.t/.test("cut"));
+        console.log('/c.t/.test("coat")', /c.t/.test("coat"));
+        console.log('/ba*n/.test("bn")', /ba*n/.test("bn"));
+        console.log('/ba*n/.test("baaan")', /ba*n/.test("baaan"));
+        console.log('/ba+n/.test("bn")', /ba+n/.test("bn"));
+        console.log('/ba+n/.test("baaaaan")', /ba+n/.test("baaaaan"));
+        console.log('/colou?r/.test("color")', /colou?r/.test("color"));
+        console.log('/colou?r/.test("colouuur")', /colou?r/.test("colouuur"));
+        console.log('/[xyz]/.test("apple")', /[xyz]/.test("apple"));
+        console.log('/[xyz]/.test("crazy")', /[xyz]/.test("crazy"));
+        console.log('/[^xyz]/.test("z")', /[^xyz]/.test("z"));
+        console.log('/[^xyz]/.test("sharvayu")', /[^xyz]/.test("sharvayu"));
+        console.log('/\\d{3}/.test("age12")', /\d{3}/.test("age12"));
+        console.log('/\\d{3}/.test("sharvayu007")', /\d{3}/.test("sharvayu007"));
+        console.log('/\\d{2,}/.test("level99")', /\d{2,}/.test("level99"));
+        console.log('/\\d{2,4}/.test("pin1")', /\d{2,4}/.test("pin1"));
+        console.log('/\\d{2,4}/.test("pin12345")', /\d{2,4}/.test("pin12345"));
+        console.log('/\\d/.test("sharvayu2")', /\d/.test("sharvayu2"));
+        console.log('/\\w/.test("$$$")', /\w/.test("$$$"));
+        console.log('/\\w/.test("2025")', /\w/.test("2025"));
+        console.log('/\\s/.test("ice cream")', /\s/.test("ice cream"));
+        console.log('/\\s/.test("icecream")', /\s/.test("icecream"));
+        console.log('/(apple|banana)/.test("I ate apple")', /(apple|banana)/.test("I ate apple"));
+        console.log('/(apple|banana)/.test("I ate mango")', /(apple|banana)/.test("I ate mango"));
+        console.log('/\\d+/.exec("pin: 1234 code: 5678")', /\d+/.exec("pin: 1234 code: 5678"));
+        console.log('/\\d+/.exec("no digits here")', /\d+/.exec("no digits here"));
+        console.log('"phone: 999-123, ext: 42".match(/\\d+/g)', "phone: 999-123, ext: 42".match(/\d+/g));
+        console.log('"I love cats".replace(/cats/, "dogs")', "I love cats".replace(/cats/, "dogs"));
+        console.log('"ticket2025".search(/\\d+/)', "ticket2025".search(/\d+/));
+        console.log('"noDigits".search(/\\d+/)', "noDigits".search(/\d+/));
+        console.log('"apple,banana;cherry|grape".split(/[,;|]/)', "apple,banana;cherry|grape".split(/[,;|]/));
+        console.log('"one two   three".split(/\\s+/)', "one two   three".split(/\s+/));
+        </script>
+</body>
+<script>
+// Task 1
+let mobileRegex = /^[6-9]\d{9}$/;
+console.log('Task 1:');
+console.log(mobileRegex.test('9876543210')); 
+console.log(mobileRegex.test('1234567890')); 
+
+// Task 2
+let dateRegex = /\d{2}\/\d{2}\/\d{4}/g;
+let dateText = "Aaj ki date hai 12/09/2025 aur aane wale kal ki date rahegi 13/09/2025.";
+console.log('Task 2:');
+console.log(dateText.match(dateRegex)); 
+
+// Task 3
+let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+console.log('Task 3:');
+console.log(passwordRegex.test('StrongPass1!'));
+console.log(passwordRegex.test('weakpass')); 
+
+// Task 4
+let text = "This is is a test test";
+let dupRegex = /\b(\w+)\s+\1\b/g;
+let duplicates = [];
+let match;
+while ((match = dupRegex.exec(text)) !== null) {
+    duplicates.push(match[1]);
+}
+console.log('Task 4:');
+console.log(duplicates); 
+
+// Task 5
+let tweet = "Learning #JavaScript is #fun and #exciting!";
+let hashtags = tweet.match(/#[A-Za-z0-9_]+/g);
+console.log('Task 5:');
+console.log(hashtags); 
+
+// Practice Problems
+// PIN
+let pinRegex = /^\d{6}$/;
+console.log(pinRegex.test('440001')); 
+
+// URL
+let urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-\.\?\=\&]*)*$/;
+console.log(urlRegex.test('https://google.com')); 
+
+// Numbers
+let numText = "Order 123 costs $45";
+let numbers = numText.match(/\d+/g);
+console.log(numbers); 
+
+// Emails
+let emailText = "Contact us at help@abc.com or sales@xyz.org";
+let emails = emailText.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g);
+console.log(emails); 
+</script>
+</html>

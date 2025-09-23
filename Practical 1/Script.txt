@@ -1,0 +1,7 @@
+<html>
+<head><title>External JS</title></head>
+<body>
+<button onclick="showMessage()">External JS Test</button>
+<script src="script.js></script>
+</body>
+</html>

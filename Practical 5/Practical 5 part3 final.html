@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const cart = [
+  { id: 1, name: "Pen ka Set", price: 100, qty: 4, category: "stationery" },
+  { id: 2, name: "Coffee Mug", price: 250, qty: 1, category: "kitchen" },
+  { id: 3, name: "Notebook", price: 80, qty: 2, category: "stationery" },
+  { id: 4, name: "Mousepad", price: 300, qty: 1, category: "electronics" },
+  { id: 5, name: "Diary", price: 150, qty: 3, category: "stationery" },
+];
+function calculateBill(shoppingCart) {
+  const processedCart = shoppingCart.map(item => {
+    const itemSubtotal = item.price * item.qty;
+    let itemDiscount = 0;
+    if (item.qty >= 3) {
+      itemDiscount = itemSubtotal * 0.05;
+    }
+    return {
+      ...item,
+      itemSubtotal: itemSubtotal,
+      itemDiscount: itemDiscount,
+    };
+  });
+  const stationeryItems = processedCart.filter(item => item.category === "stationery");
+  const stationerySubtotal = stationeryItems.reduce((total, item) => total + item.itemSubtotal, 0);
+  let stationeryDiscount = 0;
+  if (stationerySubtotal > 200) {
+    stationeryDiscount = stationerySubtotal * 0.10;
+  }
+  const initialSubtotal = processedCart.reduce((total, item) => total + item.itemSubtotal, 0);
+  const totalItemDiscounts = processedCart.reduce((total, item) => total + item.itemDiscount, 0);
+  const finalTotal = initialSubtotal - totalItemDiscounts - stationeryDiscount;
+  return {
+    processedCart: processedCart,
+    initialSubtotal: initialSubtotal,
+    totalItemDiscounts: totalItemDiscounts,
+    stationeryDiscount: stationeryDiscount,
+    finalTotal: finalTotal,
+  };
+}
+function printReceipt(billDetails) {
+  console.log("Aapke Bill ki Details");
+  billDetails.processedCart.forEach(item => {
+    let output = `Item: ${item.name} (x${item.qty}) = ₹${item.itemSubtotal.toFixed(2)}`;
+    if (item.itemDiscount > 0) {
+      output += `  --> (₹${item.itemDiscount.toFixed(2)} ka discount mila!)`;
+    }
+    console.log(output);
+  });
+  console.log(`Bina Discount ke Subtotal: Rs.${billDetails.initialSubtotal.toFixed(2)}`);
+  console.log(`Items pe Mila Discount: -Rs.${billDetails.totalItemDiscounts.toFixed(2)}`);
+  if(billDetails.stationeryDiscount > 0){
+      console.log(`Stationery pe Extra Discount: -Rs.${billDetails.stationeryDiscount.toFixed(2)}`);
+  }
+  console.log(`Aapka Final Total Amount: Rs.${billDetails.finalTotal.toFixed(2)}`);
+}
+const bill = calculateBill(cart);
+printReceipt(bill);
+    </script>
+</body>
+</html>

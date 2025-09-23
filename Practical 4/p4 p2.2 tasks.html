@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 4 Part 2</title>
+</head>
+<body>
+    <script>
+        function reverseNumber(num) {
+  if (typeof num !== "number" || isNaN(num)) {
+    throw new Error("Invalid number input");
+  }
+
+  const sign = Math.sign(num);
+  
+  const reversedAbsNum = parseInt(
+    Math.abs(num).toString().split('').reverse().join('')
+  );
+
+  return reversedAbsNum * sign;
+}
+
+console.log("Reversing 123:", reverseNumber(123));     
+console.log("Reversing -123:", reverseNumber(-123));   
+console.log("Reversing 500:", reverseNumber(500));     
+    </script>
+
+
+<Script>
+    function isStringPalindrome(inputStr) {
+  if (typeof inputStr !== 'string') {
+    throw new Error("Invalid input: Please provide a string.");
+  }
+  
+  const cleanedStr = inputStr.toLowerCase().replace(/[^a-z0-9]/g, '');
+  
+  const reversedStr = cleanedStr.split('').reverse().join('');
+  
+  return cleanedStr === reversedStr;
+}
+
+
+try {
+  let userInput1 = "Racecar";
+  let userInput2 = "A man, a plan, a canal: Panama";
+  let userInput3 = "Hello World";
+  
+  console.log(`'${userInput1}' is a palindrome:`, isStringPalindrome(userInput1));
+  console.log(`'${userInput2}' is a palindrome:`, isStringPalindrome(userInput2)); 
+  console.log(`'${userInput3}' is a palindrome:`, isStringPalindrome(userInput3)); 
+
+} catch (err) {
+  console.log("Error:", err.message);
+}
+</Script>
+
+<script>
+    function calculateSquareRoot(num) {
+  if (typeof num !== 'number' || isNaN(num)) {
+    throw new Error("Invalid input: Please provide a number.");
+  }
+  
+  if (num < 0) {
+    throw new Error("Cannot calculate the square root of a negative number.");
+  }
+  
+  return Math.sqrt(num);
+}
+
+try {
+  console.log("The square root of 25 is:", calculateSquareRoot(25));
+} catch (err) {
+  console.log("Error:", err.message);
+}
+
+try {
+  console.log(calculateSquareRoot(-9));
+} catch (err) {
+  console.log("Error caught:", err.message);
+}
+
+try {
+  console.log(calculateSquareRoot("hello"));
+} catch (err) {
+  console.log("Error caught:", err.message);
+}
+</script>
+
+<Script>
+    const isPrime = (num) => {
+  if (typeof num !== 'number' || !Number.isInteger(num)) {
+    throw new Error("Invalid input: Please provide an integer.");
+  }
+
+  if (num < 2) {
+    return false;
+  }
+
+  for (let i = 2; i <= Math.sqrt(num); i++) {
+    if (num % i === 0) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+
+try {
+  console.log("Is 17 prime?", isPrime(17));
+  console.log("Is 18 prime?", isPrime(18));
+  console.log("Is 1 prime?", isPrime(1));
+  console.log(isPrime(3.5)); 
+} catch (err) {
+  console.log("Error caught:", err.message);
+}
+
+try {
+  console.log(isPrime("text"));
+} catch(err) {
+    console.log("Error caught:", err.message);
+}
+</Script>
+</body>
+</html>

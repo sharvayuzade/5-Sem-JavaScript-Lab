@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 4 Final Challenge</title>
+</head>
+<body>
+<Script>
+    function digitalLockerSystem() {
+  let isRunning = true;
+  let mySecureLocker = null;
+  while (isRunning) {
+    const choice = prompt(
+      "Digital Locker mein aapka swagat hai Ek option chuno:\n" +
+      "1. Do PINs compare kar\n" +
+      "2. Factorial hash bana\n" +
+      "3. Message mein 'JavaScript' check kar\n" +
+      "4. Secret message store karo aur dekh\n" +
+      "5. Number ko ulta karke palindrome check kar\n" +
+      "6. Koi shabd palindrome hai ya nahi check kar\n" +
+      "7. Number ka square root nikal\n" +
+      "8. Number prime hai ya nahi check kar\n" +
+      "9. Bahar nikal"
+    );
+    switch (choice) {
+      case '1':
+        {
+          const pinA = prompt("Pehla PIN daalo:");
+          const pinB = prompt("Dusra PIN daalo:");
+          const numA = parseInt(pinA);
+          const numB = parseInt(pinB);
+          if (isNaN(numA) || isNaN(numB)) {
+            alert("PIN number me hota hai beta number daal chupchap.");
+          } else {
+            let strongerPin;
+            if (numA > numB) {
+              strongerPin = numA;
+            } else {
+              strongerPin = numB;
+            }
+            alert("In do PINs ka Shaktiman hai: " + strongerPin);
+          }
+        }
+        break;
+      case '2':
+        {
+          const val = prompt("Hash banane ke liye ek number daalo:");
+          const numToHash = parseInt(val);
+          if (isNaN(numToHash) || numToHash < 0) {
+            alert("Bhai 0 ya usse bada number daal");
+          } else {
+            let hashResult = 1;
+            for (let i = 2; i <= numToHash; i++) {
+              hashResult = hashResult * i;
+            }
+            alert("Factorial hash hai: " + hashResult);
+          }
+        }
+        break;
+      case '3':
+        {
+          const message = prompt("Apna message likh:");
+          if (message.includes("JavaScript")) {
+            alert("Message mein 'JavaScript' shabd hai.");
+          } else {
+            alert("Message mein 'JavaScript' shabd nahi hai.");
+          }
+        }
+        break;
+      case '4':
+        {
+          const key = prompt("Apne naye message ke liye ek password set kar:");
+          const secretNote = prompt("Jo secret message store karna hai woh likh:");
+          function createLocker(password) {
+            const storedMessage = secretNote;
+            return function(keyAttempt) {
+              if (keyAttempt === password) {
+                return storedMessage;
+              } else {
+                return "Galat password daldiya 🤣 Access nahi milega ab ";
+              }
+            };
+          }
+          mySecureLocker = createLocker(key);
+          alert("Locker ban gaya hai ab ise kholke dikha");
+          const accessAttempt = prompt("Message dekhne ke liye password daal:");
+          const result = mySecureLocker(accessAttempt);
+          alert("Locker kehrha hai: " + result);
+        }
+        break;
+      case '5':
+        {
+          const numInput = prompt("Ek number daal:");
+          const originalNum = parseInt(numInput);
+          if (isNaN(originalNum)) {
+            alert("Number daal bhai");
+          } else {
+            let tempNum = Math.abs(originalNum);
+            let reversedNum = 0;
+            while (tempNum > 0) {
+              let digit = tempNum % 10;
+              reversedNum = reversedNum * 10 + digit;
+              tempNum = Math.floor(tempNum / 10);
+            }
+            if (originalNum < 0) {
+                reversedNum = -reversedNum;
+            }
+            alert("Ulta number: " + reversedNum);
+            if (originalNum >= 0 && originalNum === reversedNum) {
+              alert("Yeh number ek palindrome hai");
+            } else {
+              alert("Yeh number palindrome nahi hai");
+            }
+          }
+        }
+        break;
+      case '6':
+        {
+          const phrase = prompt("Ek shabd ya line likh:");
+          const cleanPhrase = phrase.toLowerCase().replace(/[^a-z0-9]/g, '');
+          const reversedPhrase = cleanPhrase.split('').reverse().join('');
+          if (cleanPhrase === reversedPhrase) {
+            alert("'" + phrase + "' ek palindrome hai.");
+          } else {
+            alert("'" + phrase + "' palindrome nahi hai.");
+          }
+        }
+        break;
+      case '7':
+        {
+          try {
+            const inputVal = prompt("Jiska square root nikalna hai woh number daal:");
+            const number = parseFloat(inputVal);
+
+            if (isNaN(number)) {
+              throw new Error("ye number nahi hai beta, shai se daal");
+            }
+            if (number < 0) {
+              throw new Error("Negative number ka square root tere pitaji ne nikala tha kya bete?");
+            }
+
+            const root = Math.sqrt(number);
+            alert("Square root hai: " + root);
+          } catch (e) {
+            alert("Error aagya: " + e.message);
+          }
+        }
+        break;
+      case '8':
+        {
+          const potentialPrime = prompt("Prime check karne ke liye ek number daal:");
+          const num = parseInt(potentialPrime);
+          if (isNaN(num)) {
+            alert("Sahi number daal bhai");
+          } else {
+            let isAPrime = true;
+            if (num <= 1) {
+              isAPrime = false;
+            } else {
+              for (let i = 2; i < num; i++) {
+                if (num % i === 0) {
+                  isAPrime = false;
+                  break;
+                }
+              }
+            }
+            if (isAPrime) {
+              alert(num + " ek prime number hai");
+            } else {
+              alert(num + " prime number nahi hai");
+            }
+          }
+        }
+        break;
+      case '9':
+        isRunning = false;
+        alert("Digital Locker istemaal karne ke liye shukriya");
+        break;
+      default:
+        alert("Bhai 1 se 9 ke beech me hi chun nahi toh sab gadbad hojaegi");
+        break;
+    }
+  }
+}
+digitalLockerSystem();
+</Script>
+</body>
+</html>

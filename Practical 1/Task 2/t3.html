@@ -1,0 +1,17 @@
+<html>
+<head><title>External JS</title></head>
+<body>
+
+<p id="change">Hello World</p>
+<button onclick="changeText()">Click to change</button>
+
+<script>
+function changeText() {
+  var name = prompt("Enter text to display:");
+  console.log("User entered: " + name);
+  document.getElementById('change').innerText = "Hello " + name;
+}
+
+</script>
+</body>
+</html>

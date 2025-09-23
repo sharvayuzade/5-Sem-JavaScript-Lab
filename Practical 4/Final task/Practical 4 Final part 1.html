@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //1st
+ function getGreater(a, b) {
+  return a > b ? a : b;
+}
+console.log(getGreater(25, 48));
+    </script>
+
+    <Script>
+        //2nd
+const factorial = function(num) {
+  if (num < 0) return -1;
+  if (num === 0) return 1; 
+
+  let result = 1;
+  for (let i = num; i > 1; i--) {
+    result *= i;
+  }
+  return result;
+};
+console.log(factorial(5));
+
+    </Script>
+
+    <script>
+        //3rd
+const checkScript = (str) => str.includes("JavaScript");
+console.log(checkScript("Aaj mai JavaScript padhunga."));
+console.log(checkScript("Mai python me acha hu."));
+    </script>
+
+
+    <Script>
+        //4th
+function secureMessage(password) {
+  const secret = "The secret code is 8675309!";
+  return function(passwordAttempt) {
+    if (passwordAttempt === password) {
+      return secret;
+    } else {
+      return "Access Denied";
+    }
+  };
+}
+const locker = secureMessage("1234");
+console.log(locker("1111"));
+console.log(locker("1234"));
+    </Script>
+
+<Script>
+    //5th
+const lockerName = "Main Digital Locker";
+console.log(`Global: ${lockerName} is accessible here.`);
+function manageLocker() {
+  var pin = "9876";
+  console.log(`Function: ${lockerName} is still accessible here.`);
+  console.log(`Function: The PIN is ${pin}.`);
+  let accessGranted = true;
+  if (accessGranted) {
+    let tempAccess = "Granted for 5 minutes.";
+    console.log(`Block: The pin ${pin} grants access.`);
+    console.log(`Block: Status is '${tempAccess}'`);
+  }
+}
+manageLocker();
+</Script>
+</body>
+</html>

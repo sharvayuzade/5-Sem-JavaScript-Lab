@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Loops Practical</title>
+</head>
+<body>
+    <script>
+        console.log("1. Even numbers from array:");
+        let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        for (let i = 0; i < numbers.length; i++) {
+            if (numbers[i] % 2 === 0) {
+                console.log(numbers[i]);
+            }
+        }
+    </script>
+
+    <script>
+        console.log("\n2. Longest string:");
+        let strings = ["apple", "banana", "mango", "watermelon", "cherry"];
+        let longest = "";
+        for (let i = 0; i < strings.length; i++) {
+            if (strings[i].length > longest.length) {
+                longest = strings[i];
+            }
+        }
+        console.log(longest);
+    </script>
+
+    <script>
+        console.log("\n3. Odd numbers from 1 to n:");
+        let n = parseInt(prompt("Enter a number toprint odd number till n:"));
+        let i = 1;
+        while (i <= n) {
+            if (i % 2 !== 0) {
+                console.log(i);
+            }
+            i++;
+        }
+    </script>
+
+    <script>
+        console.log("\n4. Fibonacci numbers up to n:");
+        let fibLimit = parseInt(prompt("Enter a number n for Fibonacci limit:"));
+        let fib1 = 0, fib2 = 1;
+        console.log(fib1);
+        console.log(fib2);
+        while (fib1 + fib2 <= fibLimit) {
+            let next = fib1 + fib2;
+            console.log(next);
+            fib1 = fib2;
+            fib2 = next;
+        }
+    </script>
+
+    <script>
+        console.log("\n5. User input until 0:");
+        let userInputs = [5, 3, 8, 2, 0];
+        let inputIndex = 0;
+        let userNum;
+        do {
+            userNum = userInputs[inputIndex];
+            console.log("User entered:", userNum);
+            inputIndex++;
+        } while (userNum !== 0 && inputIndex < userInputs.length);
+    </script>
+
+    <script>
+        console.log("\n6. Number guessing game:");
+        let target = 7;
+        let guesses = [5, 9, 6, 7];
+        let guessIndex = 0;
+        let guess;
+        do {
+            guess = guesses[guessIndex];
+            console.log("Guess:", guess);
+            if (guess < target) {
+                console.log("Too low!");
+            } else if (guess > target) {
+                console.log("Too high!");
+            } else {
+                console.log("Correct!");
+            }
+            guessIndex++;
+        } while (guess !== target && guessIndex < guesses.length);
+    </script>
+
+    <script>
+        console.log("\n7. Input until 'exit':");
+        let inputs = ["hello", "world", "test", "exit"];
+        let idx = 0;
+        let input;
+        do {
+            input = inputs[idx];
+            console.log("Input:", input);
+            idx++;
+        } while (input !== "exit" && idx < inputs.length);
+    </script>
+
+    <script>
+        console.log("\n8. Reverse array using do-while:");
+        let arr = [1, 2, 3, 4, 5];
+        let reversed = [];
+        let j = arr.length - 1;
+        do {
+            reversed.push(arr[j]);
+            j--;
+        } while (j >= 0);
+        console.log("Original:", arr);
+        console.log("Reversed:", reversed);
+    </script>
+
+    <script>
+        console.log("\n9. Multiplication table 1 to 10:");
+        for (let x = 1; x <= 10; x++) {
+            for (let y = 1; y <= 10; y++) {
+                console.log(x + " x " + y + " = " + (x * y));
+            }
+        }
+    </script>
+
+    <script>
+        console.log("\n10. Factorial calculator:");
+        let factorialInputs = [5, 3, 4, "exit"];
+        let factIdx = 0;
+        let factInput;
+        while (factIdx < factorialInputs.length) {
+            factInput = factorialInputs[factIdx];
+            if (factInput === "exit") break;
+            let factorial = 1;
+            for (let k = 1; k <= factInput; k++) {
+                factorial *= k;
+            }
+            console.log("Factorial of " + factInput + " is " + factorial);
+            factIdx++;
+        }
+    </script>
+
+    <script>
+        console.log("\n11. Guessing game with do-while:");
+        let randomNumber = 6;
+        let gameGuesses = [3, 8, 6];
+        let gameIdx = 0;
+        let gameGuess;
+        do {
+            gameGuess = gameGuesses[gameIdx];
+            console.log("Your guess:", gameGuess);
+            if (gameGuess === randomNumber) {
+                console.log("Sahi pakde hai!");
+            } else {
+                console.log("Galata jawab!");
+            }
+            gameIdx++;
+        } while (gameGuess !== randomNumber && gameIdx < gameGuesses.length);
+    </script>
+</body>
+</html>
