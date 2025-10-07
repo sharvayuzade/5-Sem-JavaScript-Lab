@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji To-Do List</title>
+</head>
+<body>
+    <h1>📝 Emoji To-Do List</h1>
+    <div>
+        <input type="text" id="taskInput" placeholder="Enter your task..." />   
+        <select id="emojiSelect">
+            <option value="📋">📋 Work</option>
+            <option value="🏠">🏠 Home</option>
+            <option value="🛒">🛒 Shopping</option>
+            <option value="💪">💪 Exercise</option>
+            <option value="📚">📚 Study</option>
+            <option value="🍳">🍳 Cooking</option>
+            <option value="🧹">🧹 Cleaning</option>
+            <option value="📞">📞 Calls</option>
+            <option value="💼">💼 Business</option>
+            <option value="🎉">🎉 Fun</option>
+            <option value="❤️">❤️ Health</option>
+            <option value="🚗">🚗 Travel</option>
+        </select>
+        <button onclick="addTask()">Add Task</button>
+        <button onclick="randomEmoji()">🎲 Random Emoji</button>
+    </div>
+    <ul id="todoList"></ul>
+    <script>
+        const emojis = ['📋', '🏠', '🛒', '💪', '📚', '🍳', '🧹', '📞', '💼', '🎉', '❤️', '🚗', '⭐', '🔥', '🎯', '🌟', '✨', '🚀', '💎', '🏆'];
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const emojiSelect = document.getElementById('emojiSelect');
+            const todoList = document.getElementById('todoList');
+            
+            const taskText = taskInput.value.trim();
+            const selectedEmoji = emojiSelect.value;
+            
+            if (taskText === '') {
+                alert('Please enter a task!');
+                return;
+            }
+            
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <span>${selectedEmoji} ${taskText}</span>
+                <button onclick="editTask(this)">✏️ Edit</button>
+                <button onclick="removeTask(this)">❌ Remove</button>
+            `;
+            
+            todoList.appendChild(listItem);
+            
+            taskInput.value = '';
+        }
+        function randomEmoji() {
+            const emojiSelect = document.getElementById('emojiSelect');
+            const randomIndex = Math.floor(Math.random() * emojis.length);
+            const randomEmojiValue = emojis[randomIndex];
+            emojiSelect.value = randomEmojiValue;
+        }
+        function editTask(button) {
+            const listItem = button.parentNode;
+            const taskSpan = listItem.querySelector('span');
+            const currentText = taskSpan.textContent;
+            
+            const emoji = currentText.split(' ')[0];
+            const taskText = currentText.substring(currentText.indexOf(' ') + 1);
+            
+            const newText = prompt('Edit your task:', taskText);
+            if (newText !== null && newText.trim() !== '') {
+                taskSpan.textContent = `${emoji} ${newText.trim()}`;
+            }
+        } 
+        function removeTask(button) {
+            const listItem = button.parentNode;
+            listItem.remove();
+        }
+        document.getElementById('taskInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+    </script>
+</body>
+</html>
