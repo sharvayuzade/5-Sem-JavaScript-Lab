@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Session Counter</title>
+</head>
+<body>
+  <h2>Session Visit Counter</h2>
+  <p id="counter"></p>
+
+  <script>
+    if (sessionStorage.getItem("visits")) {
+      let count = Number(sessionStorage.getItem("visits")) + 1;
+      sessionStorage.setItem("visits", count);
+    } else {
+      sessionStorage.setItem("visits", 1);
+    }
+
+    document.getElementById("counter").textContent =
+      `You have refreshed this tab ${sessionStorage.getItem("visits")} times.`;
+  </script>
+</body>
+</html>

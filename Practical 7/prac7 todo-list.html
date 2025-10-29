@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple To-Do List</title>
+</head>
+<body>
+  <h2>To-Do List</h2>
+
+  <input type="text" id="taskInput" placeholder="Enter a new task...">
+  <button onclick="addTask()">Add Task</button>
+  <button onclick="sortTasks('asc')">Sort A-Z</button>
+  <button onclick="sortTasks('desc')">Sort Z-A</button>
+  <p id="taskCount">Total: 0 | Completed: 0</p>
+
+  <ul id="todoList"></ul>
+
+  <script>
+    let tasks = [];
+    let taskIdCounter = 0;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadTasksFromStorage();
+      updateTaskCount();
+
+      document.getElementById('taskInput').addEventListener('keypress', e => {
+        if (e.key === 'Enter') addTask();
+      });
+    });
+
+    function addTask() {
+      const input = document.getElementById('taskInput');
+      const taskText = input.value.trim();
+      if (!taskText) return;
+
+      if (tasks.some(t => t.text.toLowerCase() === taskText.toLowerCase())) {
+        alert('This task already exists!');
+        return;
+      }
+
+      const task = { id: ++taskIdCounter, text: taskText, completed: false };
+      tasks.push(task);
+      input.value = '';
+      renderTasks();
+      updateTaskCount();
+      saveTasksToStorage();
+    }
+
+    function renderTasks() {
+      const list = document.getElementById('todoList');
+      list.innerHTML = '';
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.dataset.id = task.id;
+        li.textContent = task.text;
+        if (task.completed) li.style.textDecoration = "line-through";
+
+        li.onmouseover = () => li.style.background = "#eee";
+        li.onmouseout = () => li.style.background = "";
+
+        const completeBtn = document.createElement('button');
+        completeBtn.textContent = task.completed ? "Undo" : "Complete";
+        completeBtn.onclick = () => toggleComplete(task.id);
+
+        const editBtn = document.createElement('button');
+        editBtn.textContent = "Edit";
+        editBtn.onclick = () => editTask(task.id);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = "Delete";
+        deleteBtn.onclick = () => deleteTask(task.id);
+
+        li.append(" ", completeBtn, " ", editBtn, " ", deleteBtn);
+        list.appendChild(li);
+      });
+    }
+
+    function toggleComplete(id) {
+      const task = tasks.find(t => t.id === id);
+      task.completed = !task.completed;
+      renderTasks();
+      updateTaskCount();
+      saveTasksToStorage();
+    }
+
+    function editTask(id) {
+      const task = tasks.find(t => t.id === id);
+      const li = document.querySelector(`[data-id='${id}']`);
+      li.innerHTML = '';
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = task.text;
+
+      const saveBtn = document.createElement('button');
+      saveBtn.textContent = "Save";
+      saveBtn.onclick = () => {
+        const newText = input.value.trim();
+        if (!newText) { alert("Task cannot be empty!"); return; }
+        if (tasks.some(t => t.id !== id && t.text.toLowerCase() === newText.toLowerCase())) {
+          alert("This task already exists!");
+          return;
+        }
+        task.text = newText;
+        renderTasks();
+        updateTaskCount();
+        saveTasksToStorage();
+      };
+
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = "Cancel";
+      cancelBtn.onclick = renderTasks;
+
+      li.append(input, saveBtn, cancelBtn);
+      input.focus();
+    }
+
+    function deleteTask(id) {
+      if (confirm("Delete this task?")) {
+        tasks = tasks.filter(t => t.id !== id);
+        renderTasks();
+        updateTaskCount();
+        saveTasksToStorage();
+      }
+    }
+
+    function sortTasks(direction) {
+      tasks.sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase()));
+      if (direction === 'desc') tasks.reverse();
+      renderTasks();
+      saveTasksToStorage();
+    }
+
+    function updateTaskCount() {
+      const count = tasks.length;
+      const completed = tasks.filter(t => t.completed).length;
+      document.getElementById('taskCount').textContent =
+        `Total: ${count} | Completed: ${completed}`;
+    }
+
+    function saveTasksToStorage() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      localStorage.setItem('counter', taskIdCounter);
+    }
+
+    function loadTasksFromStorage() {
+      const saved = localStorage.getItem('tasks');
+      const counter = localStorage.getItem('counter');
+      if (saved) tasks = JSON.parse(saved);
+      if (counter) taskIdCounter = parseInt(counter);
+      renderTasks();
+    }
+  </script>
+</body>
+</html>

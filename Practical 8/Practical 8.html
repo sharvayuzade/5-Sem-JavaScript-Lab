@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Admission Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="password"],
+        input[type="date"],
+        select,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; 
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,0.25);
+            outline: none;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 5px;
+            height: 1em; 
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            flex-grow: 1;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+        }
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+        button[type="reset"] {
+            background-color: #ffc107;
+            color: #333;
+        }
+         button[type="reset"]:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Gym Admission Form</h1>
+        <form id="gymForm" name="gymAdmissionForm" novalidate onsubmit="return finalValidate()" onreset="alert('Form has been reset!');">
+
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" placeholder="e.g., John Doe">
+                <div class="error-message" id="nameError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" placeholder="e.g., john.doe@example.com">
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" placeholder="Must be between 18 and 65">
+                <div class="error-message" id="ageError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" placeholder="10 digits only">
+                <div class="error-message" id="phoneError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob">
+                <div class="error-message" id="dobError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="membership">Membership Plan:</label>
+                <select id="membership" name="membership">
+                    <option value="">-- Please Select a Plan --</option>
+                    <option value="basic">Basic (3 Months)</option>
+                    <option value="premium">Premium (6 Months)</option>
+                    <option value="pro">Pro (12 Months)</option>
+                </select>
+                <div class="error-message" id="membershipError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Create Password:</label>
+                <input type="password" id="password" name="password" placeholder="Min 8 chars, with A-Z, a-z, 0-9, @#$%">
+                <div class="error-message" id="passwordError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter your password">
+                <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="photoId">Upload Photo ID (PNG/JPG, max 1MB):</label>
+                <input type="file" id="photoId" name="photoId" accept="image/jpeg, image/png">
+                <div class="error-message" id="photoIdError"></div>
+            </div>
+            
+            <div class="form-group">
+                 <input type="checkbox" id="terms" name="terms" style="width: auto;">
+                 <label for="terms" style="display: inline;">I agree to the terms and conditions</label>
+                 <div class="error-message" id="termsError"></div>
+            </div>
+
+            <div class="buttons">
+                <button type="submit">Register</button>
+                <button type="reset">Clear Form</button>
+            </div>
+        </form>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const form = document.getElementById('gymForm');
+    const fullName = document.getElementById('fullName');
+    const email = document.getElementById('email');
+    const age = document.getElementById('age');
+    const phone = document.getElementById('phone');
+    const dob = document.getElementById('dob');
+    const membership = document.getElementById('membership');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const photoId = document.getElementById('photoId');
+    const terms = document.getElementById('terms');
+    
+    const showError = (id, message) => {
+        document.getElementById(id).textContent = message;
+    };
+    const clearError = (id) => {
+        document.getElementById(id).textContent = '';
+    };
+
+    const validateName = () => {
+        if (fullName.value.trim().length < 3) {
+            showError('nameError', 'Full name must be at least 3 characters.');
+            return false;
+        }
+        clearError('nameError');
+        return true;
+    };
+
+    const validateEmail = () => {
+        const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        if (!email.value.match(pattern)) {
+            showError('emailError', 'Please enter a valid email address.');
+            return false;
+        }
+        clearError('emailError');
+        return true;
+    };
+    
+    const validateAge = () => {
+        const ageVal = parseInt(age.value, 10);
+        if (isNaN(ageVal) || ageVal < 18 || ageVal > 65) {
+            showError('ageError', 'Age must be a number between 18 and 65.');
+            return false;
+        }
+        clearError('ageError');
+        return true;
+    };
+
+    const validatePhone = () => {
+        const pattern = /^\d{10}$/;
+        if (!phone.value.match(pattern)) {
+            showError('phoneError', 'Phone number must be exactly 10 digits.');
+            return false;
+        }
+        clearError('phoneError');
+        return true;
+    };
+    
+    const validateDOB = () => {
+        const dobDate = new Date(dob.value);
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        if (dob.value === '' || dobDate >= today) {
+            showError('dobError', 'Date of Birth must be in the past.');
+            return false;
+        }
+        clearError('dobError');
+        return true;
+    };
+
+    const validateMembership = () => {
+        if (membership.value === "") {
+            showError('membershipError', 'Please select a membership plan.');
+            return false;
+        }
+        clearError('membershipError');
+        return true;
+    };
+
+    const validatePassword = () => {
+        const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!password.value.match(pattern)) {
+            showError('passwordError', 'Weak password. Use uppercase, lowercase, number & special char (@$!%*?&).');
+            return false;
+        }
+        clearError('passwordError');
+        return true;
+    };
+
+    const validateConfirmPassword = () => {
+        if (password.value !== confirmPassword.value || confirmPassword.value === '') {
+            showError('confirmPasswordError', 'Passwords do not match.');
+            return false;
+        }
+        clearError('confirmPasswordError');
+        return true;
+    };
+    
+    const validatePhotoId = () => {
+        const file = photoId.files[0];
+        if (!file) {
+            showError('photoIdError', 'Please upload a photo ID.');
+            return false;
+        }
+        const maxSize = 1 * 1024 * 1024;
+        if (file.size > maxSize) {
+            showError('photoIdError', 'File is too large. Maximum size is 1MB.');
+            return false;
+        }
+        if (!['image/jpeg', 'image/png'].includes(file.type)) {
+            showError('photoIdError', 'Invalid file type. Only JPG and PNG are allowed.');
+            return false;
+        }
+        clearError('photoIdError');
+        return true;
+    };
+
+    const validateTerms = () => {
+        if (!terms.checked) {
+            showError('termsError', 'You must agree to the terms and conditions.');
+            return false;
+        }
+        clearError('termsError');
+        return true;
+    };
+
+    fullName.addEventListener('keyup', validateName);
+    email.addEventListener('keyup', validateEmail);
+    age.addEventListener('keyup', validateAge);
+    password.addEventListener('keyup', () => {
+        validatePassword();
+        validateConfirmPassword();
+    });
+    confirmPassword.addEventListener('keyup', validateConfirmPassword);
+    
+    phone.addEventListener('blur', validatePhone);
+    
+    dob.addEventListener('change', validateDOB);
+    membership.addEventListener('change', validateMembership);
+    photoId.addEventListener('change', validatePhotoId);
+    terms.addEventListener('change', validateTerms);
+
+    form.querySelectorAll('input, select').forEach(element => {
+        element.addEventListener('focus', () => {
+            element.style.backgroundColor = '#e8f0fe';
+        });
+        element.addEventListener('blur', () => {
+            element.style.backgroundColor = '#fff';
+        });
+    });
+
+    confirmPassword.addEventListener('paste', (e) => {
+        e.preventDefault();
+        showError('confirmPasswordError', 'Pasting is not allowed for this field.');
+    });
+});
+
+function finalValidate() {
+    const isNameValid = document.getElementById('fullName').dispatchEvent(new Event('keyup'));
+    const isEmailValid = document.getElementById('email').dispatchEvent(new Event('keyup'));
+    const isAgeValid = document.getElementById('age').dispatchEvent(new Event('keyup'));
+    const isPhoneValid = document.getElementById('phone').dispatchEvent(new Event('blur'));
+    const isDobValid = document.getElementById('dob').dispatchEvent(new Event('change'));
+    const isMembershipValid = document.getElementById('membership').dispatchEvent(new Event('change'));
+    const isPasswordValid = document.getElementById('password').dispatchEvent(new Event('keyup'));
+    const isConfirmPasswordValid = document.getElementById('confirmPassword').dispatchEvent(new Event('keyup'));
+    const isPhotoIdValid = document.getElementById('photoId').dispatchEvent(new Event('change'));
+    const isTermsValid = document.getElementById('terms').dispatchEvent(new Event('change'));
+    
+    const errorMessages = document.querySelectorAll('.error-message');
+    let hasErrors = false;
+    errorMessages.forEach(msg => {
+        if (msg.textContent !== '') {
+            hasErrors = true;
+        }
+    });
+
+    if (hasErrors) {
+        alert('Please correct the errors before submitting the form.');
+        return false;
+    }
+    
+    alert('Form submitted successfully!');
+    return false;
+}
+</script>
+
+</body>
+</html>

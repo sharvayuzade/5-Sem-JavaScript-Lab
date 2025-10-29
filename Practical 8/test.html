@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharvayu's Gym - Admission Form with Live Validation</title>
+    <meta name="description" content="Gym admission form with comprehensive live validation">
+    <meta name="author" content="Sharvayu Zade">
+    <style>
+        /* ======================================
+           CSS VARIABLES - Ye theme ke liye colors aur values define karte hain
+           Yahan dark premium theme ke liye colors set kiye gaye hain
+           ====================================== */
+        :root {
+            --bg-dark: #0a1929;              /* Main background ka dark color */
+            --bg-card: #1a2332;              /* Form card ka background color */
+            --primary: #00d4ff;              /* Primary neon blue color - buttons aur highlights ke liye */
+            --primary-dark: #0099cc;         /* Primary ka darker version */
+            --success: #10b981;              /* Green color - valid inputs ke liye */
+            --error: #ef4444;                /* Red color - invalid inputs ke liye */
+            --warning: #f59e0b;              /* Yellow/orange - incomplete fields ke liye */
+            --text-light: #f1f5f9;           /* Light text color */
+            --text-muted: #94a3b8;           /* Muted/secondary text color */
+            --border: #2d3748;               /* Border color */
+            --shadow-glow: 0 0 30px rgba(0, 212, 255, 0.3);  /* Glow effect ke liye shadow */
+        }
+
+        /* Reset default margins aur paddings - sabhi elements ke liye */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;  /* Border aur padding width mein include ho */
+        }
+
+        /* Body styling - overall page ka look */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a1929 0%, #1a2332 100%);  /* Gradient background */
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;  /* Pura viewport height cover kare */
+            padding: 20px;
+        }
+
+        /* Custom Scrollbar - Browser ka default scrollbar ko style karna */
+        ::-webkit-scrollbar {
+            width: 10px;  /* Scrollbar ki width */
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);  /* Scrollbar track ka background */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.3);  /* Scrollbar thumb ka color */
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 212, 255, 0.5);  /* Hover pe zyada bright */
+        }
+
+        /* Container - Content ko center mein rakhne ke liye */
+        .container {
+            max-width: 900px;  /* Maximum width limit */
+            margin: 0 auto;    /* Center align */
+        }
+
+        /* Header Section - Page ka top heading area */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(138, 43, 226, 0.1));
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        /* Main heading - Gym ka naam with gradient effect */
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), #8a2be2);  /* Gradient text */
+            -webkit-background-clip: text;  /* Text pe gradient apply karne ke liye */
+            -webkit-text-fill-color: transparent;  /* Text transparent banao taaki gradient dikhe */
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: glowPulse 2s ease-in-out infinite;  /* Continuous glow animation */
+        }
+
+        /* Glow Pulse Animation - Heading ko glow karne ke liye */
+        @keyframes glowPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.6));  /* Middle mein zyada glow */
+            }
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Student Info Box - PRN aur details dikhane ke liye */
+        .student-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Form Card - Main form container with glassmorphism effect */
+        .form-card {
+            background: rgba(26, 35, 50, 0.8);  /* Semi-transparent background */
+            backdrop-filter: blur(20px);  /* Blur effect for glassmorphism */
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Form Element Counter - Total form elements dikhane ke liye */
+        .form-info {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-info strong {
+            color: var(--primary);
+        }
+
+        /* Form Groups - Har ek field ka container */
+        .form-group {
+            margin-bottom: 25px;
+            animation: fadeIn 0.5s ease-out;  /* Fade in animation jab page load ho */
+        }
+
+        /* Fade In Animation - Elements ko smoothly appear karna */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);  /* Neeche se aaye */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Row - 2 columns mein fields dikhane ke liye (Age + Gender, etc.) */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;  /* 2 equal columns */
+            gap: 20px;
+        }
+
+        /* Labels - Input fields ke upar wale labels */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* Required asterisk - Red star for mandatory fields */
+        label .required {
+            color: var(--error);
+        }
+
+        /* Input Fields Styling - Sabhi text inputs, email, number, etc. */
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="password"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 2px solid var(--border);  /* Default border color */
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;  /* Smooth transitions for all changes */
+        }
+
+        /* Focus State - Jab user input field pe click kare */
+        input:focus,
+        select:focus {
+            outline: none;  /* Browser ka default blue outline hata do */
+            border-color: var(--primary);  /* Primary color ka border */
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);  /* Glow effect */
+        }
+
+        /* Validation States - Input ki validity ke according colors */
+        
+        /* Valid State - Green border jab input sahi ho */
+        input.valid,
+        select.valid {
+            border-color: var(--success);
+        }
+
+        /* Invalid State - Red border jab input galat ho */
+        input.invalid,
+        select.invalid {
+            border-color: var(--error);
+        }
+
+        /* Incomplete State - Yellow border jab input empty ya incomplete ho */
+        input.incomplete,
+        select.incomplete {
+            border-color: var(--warning);
+        }
+
+        /* Validation Messages - Har field ke neeche error/success messages */
+        .validation-message {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            font-size: 0.85rem;
+            min-height: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* Message colors - Status ke according */
+        .validation-message.valid {
+            color: var(--success);  /* Green for valid */
+        }
+
+        .validation-message.invalid {
+            color: var(--error);  /* Red for invalid */
+        }
+
+        .validation-message.incomplete {
+            color: var(--warning);  /* Yellow for incomplete */
+        }
+
+        .validation-icon {
+            font-size: 1rem;
+        }
+
+        /* Radio aur Checkbox Groups - Gender aur Terms ke liye */
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .radio-group label,
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        /* Radio aur Checkbox buttons */
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);  /* Primary color mein check/select dikhega */
+        }
+
+        /* Select Dropdown styling */
+        select {
+            cursor: pointer;
+        }
+
+        select option {
+            background: var(--bg-card);
+            color: var(--text-light);
+        }
+
+        /* Password Strength Indicator - Password ki strength dikhane ke liye */
+        .password-strength {
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+
+        .strength-weak {
+            color: var(--error);  /* Red for weak */
+        }
+
+        .strength-medium {
+            color: var(--warning);  /* Yellow for medium */
+        }
+
+        .strength-strong {
+            color: var(--success);  /* Green for strong */
+        }
+
+        /* Button Group - Submit aur Reset buttons ke liye */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* Common Button Styling */
+        button {
+            flex: 1;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;  /* Smooth hover effects */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Submit Button - Primary gradient button */
+        button[type="submit"] {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--bg-dark);
+        }
+
+        /* Submit Button Hover - Jab disabled na ho */
+        button[type="submit"]:hover:not(:disabled) {
+            transform: translateY(-2px);  /* Upar uthao */
+            box-shadow: var(--shadow-glow);  /* Glow effect */
+        }
+
+        /* Submit Button Active - Jab click kiya jaye */
+        button[type="submit"]:active:not(:disabled) {
+            transform: translateY(0);  /* Wapas neeche */
+        }
+
+        /* Disabled Submit Button - Jab form invalid ho */
+        button[type="submit"]:disabled {
+            background: linear-gradient(135deg, #4a5568, #2d3748);  /* Gray gradient */
+            color: var(--text-muted);
+            cursor: not-allowed;  /* No-entry cursor */
+            opacity: 0.6;
+        }
+
+        /* Reset Button - Transparent with border */
+        button[type="reset"] {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-light);
+        }
+
+        button[type="reset"]:hover {
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Confirmation Modal - Preview dikhane ke liye popup */
+        .modal {
+            display: none;  /* Default mein hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);  /* Dark overlay */
+            z-index: 1000;  /* Sabse upar */
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Active Modal - Jab show karna ho */
+        .modal.active {
+            display: flex;
+        }
+
+        /* Modal Content Box */
+        .modal-content {
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-glow);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        /* Slide Up Animation - Modal neeche se aaye */
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        /* Preview Items - User ki details dikhane ke liye */
+        .preview-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .preview-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .preview-value {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+        }
+
+        /* Success Message - Form submit hone ke baad */
+        .success-message {
+            display: none;  /* Default mein hidden */
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .success-message.active {
+            display: block;  /* Active class se show karo */
+        }
+
+        .success-message h3 {
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design - Mobile screens ke liye */
+        @media (max-width: 768px) {
+            .form-card {
+                padding: 25px;  /* Chhota padding mobile pe */
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;  /* Single column layout mobile pe */
+            }
+
+            header h1 {
+                font-size: 2rem;  /* Chhoti heading mobile pe */
+            }
+
+            .button-group {
+                flex-direction: column;  /* Buttons vertical stack ho */
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        /* Footer styling */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section - Page ka title aur student info -->
+        <header>
+            <h1>🏋️ Sharvayu's Gym</h1>
+            <p>Premium Fitness Center - Gym Admission Form</p>
+            <div class="student-info">
+                <strong>Student:</strong> Sharvayu Zade | 
+                <strong>PRN:</strong> 23070521135 | 
+                <strong>Section:</strong> B (B2) | 
+                <strong>Practical:</strong> 08
+            </div>
+        </header>
+
+        <!-- Success Message - Form submit hone ke baad ye dikhayi dega -->
+        <div id="successMessage" class="success-message">
+            <h3>✅ Form Submitted Successfully!</h3>
+            <p>Welcome to Sharvayu's Gym. Your admission has been processed.</p>
+        </div>
+
+        <!-- Form Card - Main form container -->
+        <div class="form-card">
+            <!-- Form Info - Total elements count dikhata hai -->
+            <div class="form-info">
+                <strong>Form Information:</strong> Total form elements: <span id="formElementCount">0</span>
+            </div>
+
+            <!-- 
+                Main Form - novalidate attribute se browser ka default validation off hota hai
+                Hum apna custom validation use karenge 
+            -->
+            <form name="gymForm" id="gymForm" novalidate>
+                <!-- Full Name Field -->
+                <div class="form-group">
+                    <label for="fullName">Full Name <span class="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName" 
+                        placeholder="Enter your full name" 
+                        required
+                    >
+                    <!-- Validation message yahan dikhega (green/red/yellow) -->
+                    <div class="validation-message" id="fullNameMsg"></div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="your.email@example.com" 
+                        required
+                    >
+                    <div class="validation-message" id="emailMsg"></div>
+                </div>
+
+                <!-- Age aur Gender - 2 columns mein side by side -->
+                <div class="form-row">
+                    <!-- Age Field - 18 se 60 tak allowed -->
+                    <div class="form-group">
+                        <label for="age">Age (18-60) <span class="required">*</span></label>
+                        <input 
+                            type="number" 
+                            id="age" 
+                            name="age" 
+                            placeholder="25" 
+                            min="18" 
+                            max="60" 
+                            required
+                        >
+                        <div class="validation-message" id="ageMsg"></div>
+                    </div>
+
+                    <!-- Gender Field - Radio buttons -->
+                    <div class="form-group">
+                        <label>Gender <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="gender" value="male" required> Male
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="female"> Female
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="other"> Other
+                            </label>
+                        </div>
+                        <div class="validation-message" id="genderMsg"></div>
+                    </div>
+                </div>
+
+                <!-- Membership Type - Dropdown select -->
+                <div class="form-group">
+                    <label for="membershipType">Membership Type <span class="required">*</span></label>
+                    <select id="membershipType" name="membershipType" required>
+                        <option value="">-- Select Membership Type --</option>
+                        <option value="basic">Basic - ₹999/month</option>
+                        <option value="premium">Premium - ₹1999/month</option>
+                        <option value="elite">Elite - ₹2999/month</option>
+                        <option value="platinum">Platinum - ₹4999/month</option>
+                    </select>
+                    <div class="validation-message" id="membershipTypeMsg"></div>
+                </div>
+
+                <!-- Password Fields - Password aur Confirm Password side by side -->
+                <div class="form-row">
+                    <!-- Password Field - Strong password chahiye -->
+                    <div class="form-group">
+                        <label for="password">Password <span class="required">*</span></label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Create strong password" 
+                            required
+                        >
+                        <div class="validation-message" id="passwordMsg"></div>
+                        <!-- Password strength indicator (Weak/Medium/Strong) -->
+                        <div class="password-strength" id="passwordStrength"></div>
+                    </div>
+
+                    <!-- Confirm Password - Password se match hona chahiye -->
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            placeholder="Re-enter password" 
+                            required
+                        >
+                        <div class="validation-message" id="confirmPasswordMsg"></div>
+                    </div>
+                </div>
+
+                <!-- Phone aur DOB - 2 columns mein -->
+                <div class="form-row">
+                    <!-- Phone Number - Exactly 10 digits -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number (10 digits) <span class="required">*</span></label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            placeholder="9876543210" 
+                            maxlength="10" 
+                            required
+                        >
+                        <div class="validation-message" id="phoneMsg"></div>
+                    </div>
+
+                    <!-- Date of Birth - Future date allowed nahi hai -->
+                    <div class="form-group">
+                        <label for="dob">Date of Birth <span class="required">*</span></label>
+                        <input 
+                            type="date" 
+                            id="dob" 
+                            name="dob" 
+                            required
+                        >
+                        <div class="validation-message" id="dobMsg"></div>
+                    </div>
+                </div>
+
+                <!-- Profile Photo - File upload (JPG/PNG only, max 1MB) -->
+                <div class="form-group">
+                    <label for="profilePhoto">Profile Photo (JPG/PNG, max 1MB) <span class="required">*</span></label>
+                    <input 
+                        type="file" 
+                        id="profilePhoto" 
+                        name="profilePhoto" 
+                        accept="image/jpeg,image/jpg,image/png" 
+                        required
+                    >
+                    <div class="validation-message" id="profilePhotoMsg"></div>
+                </div>
+
+                <!-- Terms and Conditions - Checkbox (must be checked) -->
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" id="terms" name="terms" required>
+                            I accept the terms and conditions <span class="required">*</span>
+                        </label>
+                    </div>
+                    <div class="validation-message" id="termsMsg"></div>
+                </div>
+
+                <!-- Submit aur Reset Buttons -->
+                <div class="button-group">
+                    <!-- Submit button - disabled tab tak jab tak form valid na ho -->
+                    <button type="submit" id="submitBtn" disabled>Submit Application</button>
+                    <!-- Reset button - form ko clear kar deta hai -->
+                    <button type="reset">Reset Form</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Sharvayu's Gym. All rights reserved.</p>
+            <p>JavaScript Lab Practical 8 Final Task</p>
+        </footer>
+    </div>
+
+    <!-- Confirmation Modal - Submit karne se pehle preview dikhaane ke liye -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Submission</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Please verify your details before submitting</p>
+            
+            <!-- User details ka preview -->
+            <div class="preview-item">
+                <div class="preview-label">Name</div>
+                <div class="preview-value" id="previewName"></div>
+            </div>
+            
+            <div class="preview-item">
+                <div class="preview-label">Email</div>
+                <div class="preview-value" id="previewEmail"></div>
+            </div>
+            
+            <div class="preview-item">
+                <div class="preview-label">Membership Type</div>
+                <div class="preview-value" id="previewMembership"></div>
+            </div>
+
+            <!-- Confirm aur Cancel buttons -->
+            <div class="modal-buttons">
+                <button type="button" id="confirmBtn" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--bg-dark);">
+                    Confirm & Submit
+                </button>
+                <button type="button" id="cancelBtn" style="background: transparent; border: 2px solid var(--border); color: var(--text-light);">
+                    Go Back
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * ========================================================================
+         * SHARVAYU'S GYM - ADMISSION FORM WITH LIVE VALIDATION
+         * ========================================================================
+         * Student: Sharvayu Zade | PRN: 23070521135 | Section: B (B2) | Practical: 08
+         * 
+         * YE SCRIPT KYA KARTA HAI:
+         * - Real-time validation jaise user type karta hai (oninput event)
+         * - Validation jab field se focus hata hai (onblur event)
+         * - Dropdown/radio/checkbox changes ko track karta hai (onchange event)
+         * - Custom error messages set karta hai (oninvalid event + setCustomValidity)
+         * - Form submit se pehle final check (onsubmit event)
+         * - Form reset karne par sab clear karta hai (onreset event)
+         * - Submit button tab tak disabled rehta hai jab tak sab fields valid na ho
+         * - Submit karne se pehle confirmation modal dikhata hai
+         * - Password strength indicator (Weak/Medium/Strong)
+         * - File upload ka type aur size check karta hai
+         * 
+         * IMPORTANT FORM EVENTS USED:
+         * 1. oninput - Jab user type kar raha ho (live validation)
+         * 2. onblur - Jab user field se bahar click kare (field loses focus)
+         * 3. onchange - Dropdown, radio, checkbox ke liye
+         * 4. oninvalid - Custom error messages set karne ke liye
+         * 5. onsubmit - Form submit hone se pehle validation
+         * 6. onreset - Form reset hone par cleanup
+         * ========================================================================
+         */
+
+        // ========== FORM ELEMENTS KO ACCESS KARNA ==========
+        // document.forms['gymForm'] - Form ka naam use karke access
+        const form = document.forms['gymForm'];
+        const submitBtn = document.getElementById('submitBtn');
+        const modal = document.getElementById('confirmModal');
+        const successMessage = document.getElementById('successMessage');
+
+        // ========== FORM.LENGTH - Total form elements count dikhana ==========
+        // form.length property automatically count karta hai kitne input/select/textarea elements hain
+        document.getElementById('formElementCount').textContent = form.length;
+        console.log('Total form elements (form.length):', form.length);
+
+        // ========== VALIDATION STATE OBJECT ==========
+        // Ye object track karta hai ki kaunsa field valid hai aur kaunsa invalid
+        // Har field ka status true (valid) ya false (invalid) hai
+        const validationState = {
+            fullName: false,          // Name valid hai ya nahi
+            email: false,             // Email valid hai ya nahi
+            age: false,               // Age valid hai ya nahi
+            gender: false,            // Gender select kiya hai ya nahi
+            membershipType: false,    // Membership type select kiya hai ya nahi
+            password: false,          // Password strong hai ya nahi
+            confirmPassword: false,   // Confirm password match kar raha hai ya nahi
+            phone: false,             // Phone number valid hai ya nahi
+            dob: false,               // Date of birth valid hai ya nahi
+            profilePhoto: false,      // Photo upload valid hai ya nahi
+            terms: false              // Terms accept kiye hain ya nahi
+        };
+
+        /**
+         * ========================================================================
+         * VALIDATION FUNCTIONS - Har field ke liye alag validation function
+         * ========================================================================
+         */
+
+        // ========== 1. FULL NAME VALIDATION ==========
+        // Rules: Empty nahi ho, minimum 3 characters, sirf alphabets (spaces allowed)
+        function validateFullName() {
+            // Input element ko access karo
+            const input = document.getElementById('fullName');
+            // Value ko trim karke extra spaces hatao
+            const value = input.value.trim();
+            // Message dikhane wala element
+            const msgElement = document.getElementById('fullNameMsg');
+            
+            // Check 1: Kya field empty hai?
+            if (value.length === 0) {
+                // Incomplete status set karo (yellow border + warning message)
+                setValidationStatus(input, msgElement, 'incomplete', '⚠️ Name is required');
+                validationState.fullName = false;  // Validation state ko false mark karo
+                return false;
+            }
+            
+            // Check 2: Kya naam 3 characters se chhota hai?
+            if (value.length < 3) {
+                // Invalid status set karo (red border + error message)
+                setValidationStatus(input, msgElement, 'invalid', '❌ Name must be at least 3 characters');
+                // setCustomValidity - Browser ka custom error message set karta hai
+                input.setCustomValidity('Name must be at least 3 characters long');
+                validationState.fullName = false;
+                return false;
+            }
+            
+            // Check 3: Kya naam mein sirf alphabets aur spaces hain? (numbers/special chars nahi)
+            // Regular expression /^[a-zA-Z\s]+$/ - Sirf letters aur spaces ko allow karta hai
+            if (!/^[a-zA-Z\s]+$/.test(value)) {
+                setValidationStatus(input, msgElement, 'invalid', '❌ Name must contain only alphabets');
+                input.setCustomValidity('Name must contain only alphabetic characters');
+                validationState.fullName = false;
+                return false;
+            }
+            
+            // Sab checks pass ho gaye - Valid hai!
+            setValidationStatus(input, msgElement, 'valid', '✅ Valid name');
+            // Custom validity clear karo (koi error nahi hai)
+            input.setCustomValidity('');
+            validationState.fullName = true;
+            return true;
+        }
+
+        // ========== 2. EMAIL VALIDATION ==========
+        // Rules: Empty nahi ho, valid email format (example@domain.com)
+        function validateEmail() {
+            const input = document.getElementById('email');
+            const value = input.value.trim();
+            const msgElement = document.getElementById('emailMsg');
+            // Email validation regex - Standard email format check karta hai
+            // Pattern: characters@characters.characters
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            // Check 1: Empty hai?
+            if (value.length === 0) {
+                setValidationStatus(input, msgElement, 'incomplete', '⚠️ Email is required');
+                validationState.email = false;
+                return false;
+            }
+            
+            // Check 2: Valid email format hai?
+            // emailRegex.test(value) - True return karta hai agar format sahi ho
+            if (!emailRegex.test(value)) {
+                setValidationStatus(input, msgElement, 'invalid', '❌ Invalid email format');
+                input.setCustomValidity('Please enter a valid email address');
+                validationState.email = false;
+                return false;
+            }
+            
+            // Valid email!
+            setValidationStatus(input, msgElement, 'valid', '✅ Valid email');
+            input.setCustomValidity('');
+            validationState.email = true;
+            return true;
+        }
+
+        // ========== 3. AGE VALIDATION ==========
+        // Rules: Empty nahi ho, number ho, 18-60 ke beech ho
+        function validateAge() {
+            const input = document.getElementById('age');
+            const value = input.value;
+            const msgElement = document.getElementById('ageMsg');
+            // String ko number mein convert karo
+            const age = parseInt(value);
+            
+            // Check 1: Empty hai?
+            if (value.length === 0) {
+                setValidationStatus(input, msgElement, 'incomplete', '⚠️ Age is required');
+                validationState.age = false;
+                return false;
+            }
+            
+            // Check 2: Valid number hai aur 18-60 range mein hai?
+            // isNaN(age) - Check karta hai ki age number hai ya nahi
+            if (isNaN(age) || age < 18 || age > 60) {
+                setValidationStatus(input, msgElement, 'invalid', '❌ Age must be between 18 and 60');
+                input.setCustomValidity('Age must be between 18 and 60 years');
+                validationState.age = false;
+                return false;
+            }
+            
+            // Valid age!
+            setValidationStatus(input, msgElement, 'valid', '✅ Valid age');
+            input.setCustomValidity('');
+            validationState.age = true;
+            return true;
+        }
+
+        // ========== 4. GENDER VALIDATION ==========
+        // Rules: Koi ek radio button select hona chahiye (Male/Female/Other)
+        function validateGender() {
+            // Sabhi gender radio buttons ko get karo (same name wale)
+            const radios = document.getElementsByName('gender');
+            const msgElement = document.getElementById('genderMsg');
+            let selected = false;  // Flag to track if any radio is selected
+            
+            // Loop through all radio buttons aur check karo koi checked hai ya nahi
+            for (let radio of radios) {
+                if (radio.checked) {  // Agar koi checked hai
+                    selected = true;
+                    break;  // Loop se bahar aa jao, mil gaya
+                }
+            }
+            
+            // Agar koi select nahi hai
+            if (!selected) {
+                setValidationMessage(msgElement, 'incomplete', '⚠️ Please select gender');
+                validationState.gender = false;
+                return false;
+            }
+            
+            // Koi select hai - Valid!
+            setValidationMessage(msgElement, 'valid', '✅ Gender selected');
+            validationState.gender = true;
+            return true;
+        }
+
+        // ========== 5. MEMBERSHIP TYPE VALIDATION ==========
+        // Rules: Default option ("-- Select --") nahi hona chahiye, koi actual type select ho
+        function validateMembershipType() {
+            const select = document.getElementById('membershipType');
+            const value = select.value;  // Selected option ki value
+            const msgElement = document.getElementById('membershipTypeMsg');
+            
+            // Check: Kya default empty option selected hai?
+            if (value === '') {
+                setValidationStatus(select, msgElement, 'incomplete', '⚠️ Please select membership type');
+                select.setCustomValidity('Please select a membership type');
+                validationState.membershipType = false;
+                return false;
+            }
+            
+            // Valid selection!
+            setValidationStatus(select, msgElement, 'valid', '✅ Membership type selected');
+            select.setCustomValidity('');
+            validationState.membershipType = true;
+            return true;
+        }
+
+        // ========== 6. PASSWORD VALIDATION ==========
+        // Rules: Empty nahi, uppercase letter ho, lowercase letter ho, number ho, special character ho
+        function validatePassword() {
+            const input = document.getElementById('password');
+            const value = input.value;
+            const msgElement = document.getElementById('passwordMsg');
+            const strengthElement = document.getElementById('passwordStrength');
+            
+            // Check 1: Empty hai?
+            if (value.length === 0) {
+                setValidationStatus(input, msgElement, 'incomplete', '⚠️ Password is required');
+                strengthElement.textContent = '';  // Strength indicator clear karo
+                validationState.password = false;
+                return false;
+            }
+            
+            // Password strength check karne ke liye 4 conditions:
+            // 1. Uppercase letter (A-Z) - /[A-Z]/ regex
+            const hasUppercase = /[A-Z]/.test(value);
+            // 2. Lowercase letter (a-z) - /[a-z]/ regex
+            const hasLowercase = /[a-z]/.test(value);
+            // 3. Number (0-9) - /\d/ regex
+            const hasNumber = /\d/.test(value);
+            // 4. Special character (!@#$%^&* etc.) - /[!@#$%^&*(),.?":{}|<>]/ regex
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+            
+            // Password strength calculate karo (0-5 scale)
+            let strength = 0;
+            if (hasUppercase) strength++;  // Uppercase hai to +1
+            if (hasLowercase) strength++;  // Lowercase hai to +1
+            if (hasNumber) strength++;     // Number hai to +1
+            if (hasSpecial) strength++;    // Special char hai to +1
+            if (value.length >= 8) strength++;  // 8+ characters hai to +1
+            
+            // Strength ke basis pe message dikhao:
+            if (strength < 4) {
+                // Weak password - 4 se kam criteria meet hui
+                setValidationStatus(input, msgElement, 'invalid', '❌ Password must contain uppercase, lowercase, number, and special character');
+                strengthElement.innerHTML = '<span class="strength-weak">Weak password</span>';
+                input.setCustomValidity('Password must contain uppercase, lowercase, number, and special character');
+                validationState.password = false;
+                return false;
+            } else if (strength === 4) {
+                // Medium password - 4 criteria meet hui
+                setValidationStatus(input, msgElement, 'valid', '✅ Password accepted');
+                strengthElement.innerHTML = '<span class="strength-medium">Medium strength</span>';
+                input.setCustomValidity('');
+                validationState.password = true;
+            } else {
+                // Strong password - 5 criteria meet hui (8+ chars bhi hai)
+                setValidationStatus(input, msgElement, 'valid', '✅ Strong password');
+                strengthElement.innerHTML = '<span class="strength-strong">Strong password</span>';
+                input.setCustomValidity('');
+                validationState.password = true;
+            }
+            
+            // Agar confirm password already filled hai, to use bhi re-validate karo
+            // Kyunki password change hone se confirm password invalid ho sakta hai
+            if (document.getElementById('confirmPassword').value) {
+                validateConfirmPassword();
+            }
+            
+            return validationState.password;
+        }
+
+        // ========== 7. CONFIRM PASSWORD VALIDATION ==========
+        // Rules: Empty nahi ho, password field se exactly match kare
+        function validateConfirmPassword() {
+            const input = document.getElementById('confirmPassword');
+            const password = document.getElementById('password').value;  // Original password
+            const value = input.value;  // Confirm password
+            const msgElement = document.getElementById('confirmPasswordMsg');
+            
+            // Check 1: Empty hai?
+            if (value.length === 0) {
+                setValidationStatus(input, msgElement, 'incomplete', '⚠️ Please confirm your password');
+                validationState.confirmPassword = false;
+                return false;
+            }
+            
+            // Check 2: Kya dono passwords match kar rahe hain?
+            if (value !== password) {
+                setValidationStatus(input, msgElement, 'invalid', '❌ Passwords do not match');
+                input.setCustomValidity('Passwords do not match');
+                validationState.confirmPassword = false;
+                return false;
+            }
+            
+            // Passwords match kar gaye!
+            setValidationStatus(input, msgElement, 'valid', '✅ Passwords match');
+            input.setCustomValidity('');
+            validationState.confirmPassword = true;
+            return true;
+        }
+
+        // ========== 8. PHONE NUMBER VALIDATION ==========
+        // Rules: Empty nahi ho, exactly 10 digits ho (no letters/special chars)
+        function validatePhone() {
+            const input = document.getElementById('phone');
+            const value = input.value.trim();
+            const msgElement = document.getElementById('phoneMsg');
+            
+            // Check 1: Empty hai?
+            if (value.length === 0) {
+                setValidationStatus(input, msgElement, 'incomplete', '⚠️ Phone number is required');
+                validationState.phone = false;
+                return false;
+            }
+            
+            // Check 2: Exactly 10 digits hain? (no letters/special chars)
+            // /^\d{10}$/ - Start se end tak exactly 10 digits (\d means digit, {10} means exactly 10)
+            if (!/^\d{10}$/.test(value)) {
+                setValidationStatus(input, msgElement, 'invalid', '❌ Phone must be exactly 10 digits');
+                input.setCustomValidity('Phone number must be exactly 10 digits');
+                validationState.phone = false;
+                return false;
+            }
+            
+            // Valid 10-digit phone number!
+            setValidationStatus(input, msgElement, 'valid', '✅ Valid phone number');
+            input.setCustomValidity('');
+            validationState.phone = true;
+            return true;
+        }
+
+        // ========== 9. DATE OF BIRTH VALIDATION ==========
+        // Rules: Empty nahi ho, future date nahi hona chahiye (aaj se pehle ka date ho)
+        function validateDOB() {
+            const input = document.getElementById('dob');
+            const value = input.value;
+            const msgElement = document.getElementById('dobMsg');
+            
+            // Check 1: Empty hai?
+            if (value.length === 0) {
+                setValidationStatus(input, msgElement, 'incomplete', '⚠️ Date of birth is required');
+                validationState.dob = false;
+                return false;
+            }
+            
+            // Selected date ko Date object mein convert karo
+            const selectedDate = new Date(value);
+            // Aaj ki date
+            const today = new Date();
+            
+            // Check 2: Kya selected date aaj se aage hai? (future date)
+            if (selectedDate > today) {
+                setValidationStatus(input, msgElement, 'invalid', '❌ Date of birth cannot be in the future');
+                input.setCustomValidity('Date of birth cannot be in the future');
+                validationState.dob = false;
+                return false;
+            }
+            
+            // Valid date (past or today)!
+            setValidationStatus(input, msgElement, 'valid', '✅ Valid date of birth');
+            input.setCustomValidity('');
+            validationState.dob = true;
+            return true;
+        }
+
+        // ========== 10. PROFILE PHOTO VALIDATION ==========
+        // Rules: File select ho, sirf JPG/PNG allowed, size 1MB se kam ho
+        function validateProfilePhoto() {
+            const input = document.getElementById('profilePhoto');
+            const msgElement = document.getElementById('profilePhotoMsg');
+            
+            // Check 1: Koi file select hui hai?
+            if (!input.files || input.files.length === 0) {
+                setValidationStatus(input, msgElement, 'incomplete', '⚠️ Profile photo is required');
+                validationState.profilePhoto = false;
+                return false;
+            }
+            
+            // Selected file ko access karo
+            const file = input.files[0];
+            // Valid file types - sirf JPG aur PNG
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            
+            // Check 2: File ka type valid hai? (JPG/PNG)
+            if (!validTypes.includes(file.type)) {
+                setValidationStatus(input, msgElement, 'invalid', '❌ Only JPG/PNG files allowed');
+                input.setCustomValidity('Only JPG or PNG files are allowed');
+                validationState.profilePhoto = false;
+                return false;
+            }
+            
+            // Check 3: File size 1MB se kam hai?
+            const maxSize = 1 * 1024 * 1024; // 1MB in bytes (1 * 1024 KB * 1024 bytes)
+            if (file.size > maxSize) {
+                setValidationStatus(input, msgElement, 'invalid', '❌ File size must be less than 1MB');
+                input.setCustomValidity('File size must be less than 1MB');
+                validationState.profilePhoto = false;
+                return false;
+            }
+            
+            // Valid file! - Size bhi dikhao (KB mein)
+            setValidationStatus(input, msgElement, 'valid', '✅ Valid file (' + (file.size / 1024).toFixed(2) + ' KB)');
+            input.setCustomValidity('');
+            validationState.profilePhoto = true;
+            return true;
+        }
+
+        // ========== 11. TERMS & CONDITIONS VALIDATION ==========
+        // Rules: Checkbox checked hona chahiye
+        function validateTerms() {
+            const input = document.getElementById('terms');
+            const msgElement = document.getElementById('termsMsg');
+            
+            // Check: Checkbox checked hai ya nahi?
+            if (!input.checked) {
+                setValidationMessage(msgElement, 'incomplete', '⚠️ You must accept the terms and conditions');
+                input.setCustomValidity('You must accept the terms and conditions');
+                validationState.terms = false;
+                return false;
+            }
+            
+            // Checked hai!
+            setValidationMessage(msgElement, 'valid', '✅ Terms accepted');
+            input.setCustomValidity('');
+            validationState.terms = true;
+            return true;
+        }
+
+        /**
+         * ========================================================================
+         * HELPER FUNCTIONS - Validation status set karne ke liye utility functions
+         * ========================================================================
+         */
+
+        // ========== setValidationStatus - Input field + message dono ko update karta hai ==========
+        // Parameters:
+        // - inputElement: Input field jisko style karna hai (border color change)
+        // - msgElement: Message element jisme text dikhana hai
+        // - status: 'valid', 'invalid', ya 'incomplete'
+        // - message: Dikhane wala message (emoji + text)
+        function setValidationStatus(inputElement, msgElement, status, message) {
+            // Pehle sabhi status classes remove karo (valid/invalid/incomplete)
+            inputElement.classList.remove('valid', 'invalid', 'incomplete');
+            msgElement.classList.remove('valid', 'invalid', 'incomplete');
+            
+            // Current status ka class add karo
+            // Ye border color change karega (green/red/yellow)
+            inputElement.classList.add(status);
+            msgElement.classList.add(status);
+            
+            // Message set karo with icon
+            // message.split(' ')[0] - First word (emoji) ko icon ke roop mein use karo
+            // message.substring(message.indexOf(' ') + 1) - Baaki message
+            msgElement.innerHTML = `<span class="validation-icon">${message.split(' ')[0]}</span> ${message.substring(message.indexOf(' ') + 1)}`;
+        }
+
+        // ========== setValidationMessage - Sirf message update karta hai (input styling nahi) ==========
+        // Radio aur checkbox groups ke liye use hota hai kyunki unka border nahi hai
+        function setValidationMessage(msgElement, status, message) {
+            msgElement.classList.remove('valid', 'invalid', 'incomplete');
+            msgElement.classList.add(status);
+            msgElement.innerHTML = `<span class="validation-icon">${message.split(' ')[0]}</span> ${message.substring(message.indexOf(' ') + 1)}`;
+        }
+
+        // ========== checkFormValidity - Poore form ki validity check karta hai ==========
+        // Ye function submit button ko enable/disable karta hai
+        function checkFormValidity() {
+            // validationState object ke saare values check karo
+            // Object.values(validationState) - Saari values ko array mein convert karta hai
+            // .every(status => status === true) - Check karta hai ki saari values true hain ya nahi
+            const allValid = Object.values(validationState).every(status => status === true);
+            
+            // Agar sab valid hain to button enable, nahi to disable
+            submitBtn.disabled = !allValid;
+            
+            // Cursor style bhi change karo visual feedback ke liye
+            if (allValid) {
+                submitBtn.style.cursor = 'pointer';  // Click karne wala cursor
+            } else {
+                submitBtn.style.cursor = 'not-allowed';  // Not allowed cursor
+            }
+        }
+
+        /**
+         * ========================================================================
+         * EVENT LISTENERS - Form events ko validation functions se connect karna
+         * ========================================================================
+         * Yahan hum different events use kar rahe hain:
+         * - 'input': Jab user type kar raha ho (live validation)
+         * - 'blur': Jab field se focus hata ho (click outside)
+         * - 'change': Dropdown/radio/checkbox ke liye
+         * - 'invalid': Custom error messages ke liye
+         * - 'submit': Form submit karne se pehle
+         * - 'reset': Form reset karne par
+         */
+
+        // ========== FULL NAME - oninput + onblur events ==========
+        // 'input' event - Har keystroke pe trigger hota hai (live validation)
+        document.getElementById('fullName').addEventListener('input', function() {
+            validateFullName();      // Name validate karo
+            checkFormValidity();     // Form validity check karo
+        });
+        // 'blur' event - Jab field se focus hat jaye (user ne field chhod di)
+        document.getElementById('fullName').addEventListener('blur', function() {
+            validateFullName();
+            checkFormValidity();
+        });
+
+        // ========== EMAIL - oninput + onblur ==========
+        document.getElementById('email').addEventListener('input', function() {
+            validateEmail();
+            checkFormValidity();
+        });
+        document.getElementById('email').addEventListener('blur', function() {
+            validateEmail();
+            checkFormValidity();
+        });
+
+        // ========== AGE - oninput + onblur ==========
+        document.getElementById('age').addEventListener('input', function() {
+            validateAge();
+            checkFormValidity();
+        });
+        document.getElementById('age').addEventListener('blur', function() {
+            validateAge();
+            checkFormValidity();
+        });
+
+        // ========== GENDER - onchange (radio buttons) ==========
+        // Sabhi gender radio buttons ko select karo aur unpe change event lagao
+        // 'change' event - Jab koi radio button select ho
+        document.querySelectorAll('input[name="gender"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                validateGender();
+                checkFormValidity();
+            });
+        });
+
+        // ========== MEMBERSHIP TYPE - onchange (dropdown) ==========
+        // 'change' event - Jab dropdown mein koi option select ho
+        document.getElementById('membershipType').addEventListener('change', function() {
+            validateMembershipType();
+            checkFormValidity();
+        });
+
+        // ========== PASSWORD - oninput + onblur ==========
+        document.getElementById('password').addEventListener('input', function() {
+            validatePassword();      // Password validate karo aur strength dikhao
+            checkFormValidity();
+        });
+        document.getElementById('password').addEventListener('blur', function() {
+            validatePassword();
+            checkFormValidity();
+        });
+
+        // ========== CONFIRM PASSWORD - oninput + onblur ==========
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            validateConfirmPassword();  // Check if passwords match
+            checkFormValidity();
+        });
+        document.getElementById('confirmPassword').addEventListener('blur', function() {
+            validateConfirmPassword();
+            checkFormValidity();
+        });
+
+        // ========== PHONE - oninput + onblur ==========
+        document.getElementById('phone').addEventListener('input', function() {
+            validatePhone();
+            checkFormValidity();
+        });
+        document.getElementById('phone').addEventListener('blur', function() {
+            validatePhone();
+            checkFormValidity();
+        });
+
+        // ========== DATE OF BIRTH - onchange ==========
+        document.getElementById('dob').addEventListener('change', function() {
+            validateDOB();
+            checkFormValidity();
+        });
+
+        // ========== PROFILE PHOTO - onchange (file input) ==========
+        document.getElementById('profilePhoto').addEventListener('change', function() {
+            validateProfilePhoto();  // File type aur size check karo
+            checkFormValidity();
+        });
+
+        // ========== TERMS - onchange (checkbox) ==========
+        document.getElementById('terms').addEventListener('change', function() {
+            validateTerms();
+            checkFormValidity();
+        });
+
+        // ========== ONINVALID EVENT - Custom validity messages ==========
+        // Ye sabhi input/select elements pe 'invalid' event lagata hai
+        // 'invalid' event tab trigger hota hai jab browser ko lage ki field invalid hai
+        form.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('invalid', function(e) {
+                e.preventDefault();  // Browser ka default error bubble prevent karo
+                // Custom validity messages already set hain validation functions mein
+                // So yahan kuch karne ki zarurat nahi, bas default behavior rok rahe hain
+            });
+        });
+
+        /**
+         * ========================================================================
+         * FORM SUBMISSION - onsubmit event
+         * ========================================================================
+         * Jab user submit button click kare, ye function run hoga
+         */
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Browser ka default form submission rok do (page reload nahi hoga)
+            
+            // Sabhi validations ek baar aur run karo (final check)
+            // && operator - Sab true hone chahiye
+            const isValid = validateFullName() && validateEmail() && validateAge() && 
+                           validateGender() && validateMembershipType() && validatePassword() && 
+                           validateConfirmPassword() && validatePhone() && validateDOB() && 
+                           validateProfilePhoto() && validateTerms();
+            
+            // Agar kuch bhi invalid hai
+            if (!isValid) {
+                alert('Please fill all fields correctly before submitting.');
+                return false;  // Form submit mat karo
+            }
+            
+            // Sab valid hai - Confirmation modal dikhao
+            showConfirmationModal();
+        });
+
+        /**
+         * ========================================================================
+         * FORM RESET - onreset event
+         * ========================================================================
+         * Jab user reset button click kare, ye function run hoga
+         * Ye sabhi validation messages aur states ko clear kar deta hai
+         */
+        form.addEventListener('reset', function() {
+            // Sabhi validation messages clear karo
+            document.querySelectorAll('.validation-message').forEach(msg => {
+                msg.textContent = '';  // Text khali karo
+                msg.className = 'validation-message';  // Sirf base class rakho (colors hata do)
+            });
+            
+            // Password strength indicator clear karo
+            document.getElementById('passwordStrength').textContent = '';
+            
+            // Sabhi inputs se status classes remove karo (valid/invalid/incomplete borders hata do)
+            form.querySelectorAll('input, select').forEach(element => {
+                element.classList.remove('valid', 'invalid', 'incomplete');
+                element.setCustomValidity('');  // Custom error messages clear karo
+            });
+            
+            // Validation state object ko reset karo (sab false)
+            for (let key in validationState) {
+                validationState[key] = false;
+            }
+            
+            // Submit button ko disable kar do
+            submitBtn.disabled = true;
+            
+            // Agar success message visible hai to use bhi hide karo
+            successMessage.classList.remove('active');
+        });
+
+        /**
+         * ========================================================================
+         * CONFIRMATION MODAL FUNCTIONS - Preview aur final submission
+         * ========================================================================
+         */
+
+        // ========== showConfirmationModal - Modal dikhata hai user details ke saath ==========
+        function showConfirmationModal() {
+            // Preview mein user ki details populate karo
+            document.getElementById('previewName').textContent = document.getElementById('fullName').value;
+            document.getElementById('previewEmail').textContent = document.getElementById('email').value;
+            
+            // Membership type ka text nikalo (value nahi, display text)
+            const membershipSelect = document.getElementById('membershipType');
+            const membershipText = membershipSelect.options[membershipSelect.selectedIndex].text;
+            document.getElementById('previewMembership').textContent = membershipText;
+            
+            // Modal ko show karo (active class add karne se display: flex ho jayega)
+            modal.classList.add('active');
+        }
+
+        // ========== hideConfirmationModal - Modal ko hide karta hai ==========
+        function hideConfirmationModal() {
+            modal.classList.remove('active');  // active class remove karne se display: none ho jayega
+        }
+
+        // ========== Confirm Button - Final submission ==========
+        // Jab user confirm button click kare modal mein
+        document.getElementById('confirmBtn').addEventListener('click', function() {
+            hideConfirmationModal();  // Modal hide karo
+            
+            // Success message show karo
+            successMessage.classList.add('active');
+            
+            // Page ko top pe scroll karo taaki success message dikhe
+            window.scrollTo({ top: 0, behavior: 'smooth' });  // Smooth scroll animation
+            
+            // 3 seconds ke baad form reset kar do aur success message hide kar do
+            setTimeout(function() {
+                form.reset();  // Form reset karega (onreset event trigger hoga)
+                successMessage.classList.remove('active');
+            }, 3000);  // 3000 milliseconds = 3 seconds
+        });
+
+        // ========== Cancel Button - Modal close karta hai ==========
+        document.getElementById('cancelBtn').addEventListener('click', function() {
+            hideConfirmationModal();  // Wapas form pe jaao
+        });
+
+        // ========== Modal ke bahar click karne pe close karo ==========
+        modal.addEventListener('click', function(e) {
+            // e.target === modal - Check karo ki exactly modal background pe click hua
+            // Agar modal-content pe click hua to close mat karo
+            if (e.target === modal) {
+                hideConfirmationModal();
+            }
+        });
+
+        /**
+         * ========================================================================
+         * reportValidity() METHOD - Browser ka built-in validation method
+         * ========================================================================
+         * form.reportValidity() - Browser ke native validation messages show karta hai
+         * Ye method automatically sabhi invalid fields ka highlight karega aur error dikhayega
+         * 
+         * DEMO KE LIYE - Neeche wala code uncomment kar sakte ho:
+         */
+        /*
+        submitBtn.addEventListener('click', function(e) {
+            if (!form.reportValidity()) {
+                // Agar form invalid hai to default submission rok do
+                e.preventDefault();
+                alert('Please check all fields for errors');
+            }
+        });
+        */
+
+        // ========== CONSOLE LOGS - Debugging ke liye helpful info ==========
+        console.log('=== Form Validation System Initialized ===');
+        console.log('Total form elements (using form.length):', form.length);
+        console.log('Form name (using form.name):', form.name);
+        console.log('All validation functions loaded successfully!');
+        console.log('Events attached: oninput, onblur, onchange, oninvalid, onsubmit, onreset');
+    </script>
+</body>
+</html>

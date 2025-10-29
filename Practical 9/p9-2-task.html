@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Theme & Font Switcher</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      transition: background-color 0.5s, color 0.5s, font-size 0.3s;
+    }
+    .dark {
+      background-color: #121212;
+      color: white;
+    }
+    .light {
+      background-color: #ffffff;
+      color: black;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>User Preferences with localStorage</h1>
+  
+  <hr>
+  <h3>Theme</h3>
+  <button id="toggleTheme">Toggle Theme</button>
+  
+  <hr>
+  <h3>Font Size</h3>
+  <button class="font-btn" data-size="small">Small</button>
+  <button class="font-btn" data-size="medium">Medium</button>
+  <button class="font-btn" data-size="large">Large</button>
+
+  <script>
+    const body = document.body;
+    
+    // --- Theme Switcher Logic ---
+    const themeBtn = document.getElementById("toggleTheme");
+    
+    // 1. Load theme from localStorage on page load
+    const savedTheme = localStorage.getItem("theme") || "light";
+    body.classList.add(savedTheme);
+    
+    // 2. Update button text
+    themeBtn.textContent = savedTheme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode";
+    
+    // 3. Toggle theme and save to localStorage
+    themeBtn.addEventListener("click", () => {
+      const newTheme = body.classList.contains("dark") ? "light" : "dark";
+      body.className = newTheme; // switch theme
+      localStorage.setItem("theme", newTheme);
+      themeBtn.textContent = newTheme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode";
+    });
+
+    // --- Font Size Logic (NEW) ---
+
+    // 1. Get references to all font size buttons
+    const fontButtons = document.querySelectorAll(".font-btn");
+
+    // 2. Load and apply font size from localStorage on page load
+    const savedFontSize = localStorage.getItem("fontSize") || "medium";
+    body.style.fontSize = savedFontSize;
+
+    // 3. Add click listeners to each font button
+    fontButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const newSize = button.dataset.size; // Get size from data-size attribute
+        body.style.fontSize = newSize;       // Apply the new font size
+        localStorage.setItem("fontSize", newSize); // Save the choice to localStorage
+      });
+    });
+  </script>
+</body>
+</html>

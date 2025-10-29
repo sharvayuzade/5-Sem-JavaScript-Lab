@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Storage Example</title>
+</head>
+<body>
+  <h2>Web Storage Demo</h2>
+  
+  <input type="text" id="username" placeholder="Enter your name">
+  <button onclick="saveData()">Save</button>
+  <button onclick="loadData()">Load</button>
+  <button onclick="clearData()">Clear</button>
+
+  <p id="output"></p>
+
+  <script>
+    function saveData() {
+      let name = document.getElementById("username").value;
+      localStorage.setItem("userName", name);
+      sessionStorage.setItem("sessionName", name);
+      alert("Data saved!");
+    }
+
+    function loadData() {
+      let localName = localStorage.getItem("userName");
+      let sessionName = sessionStorage.getItem("sessionName");
+      document.getElementById("output").innerHTML =
+        `LocalStorage: ${localName} <br> SessionStorage: ${sessionName}`;
+    }
+
+    function clearData() {
+      localStorage.clear();
+      sessionStorage.clear();
+      document.getElementById("output").innerHTML = "Storage cleared!";
+    }
+  </script>
+</body>
+</html>
