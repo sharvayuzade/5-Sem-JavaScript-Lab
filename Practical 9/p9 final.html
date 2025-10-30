@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Personal Dashboard</title>
+  <style>
+    body {
+      font-family: Verdana, sans-serif;
+      transition: all 0.4s ease;
+      text-align: center;
+      padding: 20px;
+    }
+    .dark { background-color: #121212; color: white; }
+    .light { background-color: #ffffff; color: black; }
+    #controls button, select, input {
+      margin: 6px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    textarea {
+      display: block;
+      margin: 10px auto;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="welcomeText">Welcome!</h1>
+
+  <div id="controls">
+    <input type="text" id="userName" placeholder="Enter your name">
+    <button id="saveUser">Save Name</button>
+    <button id="themeBtn">Switch Theme</button>
+    <select id="fontChooser">
+      <option value="small">Small</option>
+      <option value="medium" selected>Medium</option> 
+      <option value="large">Large</option>
+    </select>
+    
+    <button id="resetPrefs">Reset Preferences</button>
+  </div>
+
+  <p id="tabCounter"></p>
+
+  <h3>Feedback</h3>
+  <textarea id="feedback" rows="5" cols="40" placeholder="Your feedback..."></textarea>
+
+  <script>
+    // Saare elements ko pehle hi pakad liya taaki code saaf rahe
+    const welcomeText = document.getElementById("welcomeText");
+    const userNameInput = document.getElementById("userName");
+    const saveUserBtn = document.getElementById("saveUser");
+    const themeBtn = document.getElementById("themeBtn");
+    const fontSelect = document.getElementById("fontChooser");
+    const tabCounter = document.getElementById("tabCounter");
+    const feedbackInput = document.getElementById("feedback");
+    const resetBtn = document.getElementById("resetPrefs");
+
+    // FIX: Saara "load" wala logic DOMContentLoaded mein daal diya
+    // Taaki page load hote hi saari saved settings apply ho jaayein
+    window.addEventListener('DOMContentLoaded', () => {
+      
+      // --- Task 1: Theme Fix ---
+      // FIX: Key 'ThemeMode' se 'theme' kar di (consistent) aur default 'light' kar diya
+      let currentTheme = localStorage.getItem("theme") || "light";
+      // FIX: 'undefined' ki jagah 'null' check (ya '||') aana tha
+      document.body.classList.add(currentTheme);
+
+      // --- Task 2: Font Fix ---
+      // FIX: Sahi key 'fontsizePref' (chhota 's') use ki
+      let storedFont = localStorage.getItem("fontsizePref");
+      if (storedFont) {
+        document.body.style.fontSize = storedFont;
+        fontSelect.value = storedFont; // Dropdown ko bhi sync kar diya
+      }
+
+      // --- Task 3: Username Fix ---
+      // FIX: Yeh logic missing tha. Saved user ko load kar rahe hain.
+      let storedUser = localStorage.getItem("username");
+      if (storedUser) {
+        welcomeText.innerText = "Welcome, " + storedUser;
+        userNameInput.value = storedUser; // Input box mein bhi naam daal diya
+      }
+
+      // --- Task 4: Counter Fix ---
+      // FIX: Value ko string se 'Number' mein badla aur default 0 rakha
+      let count = Number(sessionStorage.getItem("visits")) || 0;
+      // FIX: Pehle count badhaya (increment)
+      count++; 
+      // FIX: Phir naya (incremented) count save kiya
+      sessionStorage.setItem("visits", count); 
+      tabCounter.innerHTML = `This tab has been refreshed ${count} time(s).`;
+
+      // --- Task 5: Feedback Fix ---
+      // FIX: Yeh logic missing tha. Saved feedback ko load kar rahe hain.
+      let savedFeedback = sessionStorage.getItem("feedbackText");
+      if (savedFeedback) {
+        // FIX: '.innerHTML' ki jagah '.value' use kiya
+        feedbackInput.value = savedFeedback;
+      }
+    });
+
+    // === EVENT LISTENERS ===
+
+    // Task 1: Theme Toggle
+    themeBtn.onclick = function() {
+      let newTheme = document.body.classList.contains("light") ? "dark" : "light";
+      
+      // FIX: 'classList = t' (jo galat tha) ko remove/add se replace kiya
+      document.body.classList.remove("light", "dark"); // Pehle purani hatao
+      document.body.classList.add(newTheme);           // Phir nayi lagao
+      
+      // FIX: Key 'theme' use ki taaki load/save match karein
+      localStorage.setItem("theme", newTheme);         
+    };
+
+    // Task 2: Font Size Change
+    fontSelect.onchange = function() {
+      let f = fontSelect.value;
+      document.body.style.fontSize = f;
+      // FIX: Sahi key 'fontsizePref' (chhota 's') se save kiya
+      localStorage.setItem("fontsizePref", f);
+    };
+
+    // Task 3: Username Save
+    saveUserBtn.onclick = function() {
+      let user = userNameInput.value;
+      // FIX: 'localStorage.name' ki jagah 'setItem' aur 'username' key use ki
+      localStorage.setItem("username", user);
+      // FIX: 'localStorage.getItem' ki jagah direct variable se text set kiya
+      welcomeText.innerText = "Welcome, " + user;
+    };
+
+    // Task 5: Feedback Autosave
+    feedbackInput.addEventListener("keyup", () => {
+      // FIX: '.innerHTML' ki jagah '.value' use kiya
+      sessionStorage.setItem("feedbackText", feedbackInput.value);
+    });
+
+    // Final Task: Reset Preferences
+    // FIX: Yeh poora naya feature add kiya
+    resetBtn.onclick = function() {
+      // Sirf localStorage (persistent) clear kiya
+      localStorage.clear();
+      // Page ko reload kar diya taaki default settings aa jaayein
+      location.reload();
+    };
+
+  </script>
+</body>
+</html>
