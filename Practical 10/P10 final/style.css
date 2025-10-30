@@ -1,0 +1,13 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f9fafc;
+}
+
+table th, table td {
+  border: 1px solid #888;
+}
+
+h1 {
+  color: #2b2b2b;
+}

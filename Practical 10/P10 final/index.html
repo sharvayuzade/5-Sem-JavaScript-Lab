@@ -1,65 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practical 10 - Employee Directory</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .highlight-salary {
-            background-color: #d4edda; /* light-green */
-            font-weight: bold;
-        }
-        .controls {
-            margin-bottom: 20px;
-        }
-        .controls label {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Employee Directory Manager</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- For jQuery -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h1>Employee Directory Manager</h1>
 
-    <h1>Employee Directory Manager</h1>
-    <p><strong>Name:</strong> Sharvayu Zade | <strong>PRN:</strong> 23070521135 | <strong>Sec:</strong> B(B2)</p>
+  <h3>Filter by Department:</h3>
+  <select id="deptFilter">
+    <option value="all">All Departments</option> <!-- Default option -->
+  </select>
 
-    <div class="controls">
-        <label for="dept-filter">Filter by Department:</label>
-        <select id="dept-filter">
-            </select>
-    </div>
+  <h2>Loaded with Fetch API</h2>
+  <div id="fetchTable"></div> <!-- Dynamic table container -->
 
-    <hr>
+  <h2>Loaded with jQuery $.getJSON()</h2>
+  <div id="jqueryTable"></div> <!-- Dynamic table container -->
 
-    <h2>Directory (Loaded via Fetch API)</h2>
-    <div id="fetch-table-container">
-        </div>
-
-    <hr>
-
-    <h2>Directory (Loaded via jQuery $.getJSON)</h2>
-    <div id="jquery-table-container">
-        </div>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="script.js"></script>
-
+  <script src="script2.js"></script>
 </body>
 </html>

@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "John Doe", "department": "HR", "salary": 45000 },
+  { "id": 2, "name": "Priya Sharma", "department": "IT", "salary": 67000 },
+  { "id": 3, "name": "Ali Khan", "department": "Finance", "salary": 52000 },
+  { "id": 4, "name": "Meera Patel", "department": "IT", "salary": 48000 },
+  { "id": 5, "name": "Rohan Singh", "department": "Marketing", "salary": 75000 }
+]
