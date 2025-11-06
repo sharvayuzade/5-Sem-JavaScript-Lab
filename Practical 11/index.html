@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 11 (HTML Only Version)</title>
+
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            /* Added transitions for smooth changes */
+            transition: background-color 0.3s, font-size 0.3s;
+        }
+
+        /* Each class session block */
+        .session {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Highlight active session */
+        .active {
+            background: #c8f7c5;
+            border-color: #28a745;
+            font-weight: bold;
+        }
+
+        /* Style for the countdown timer */
+        #countdown {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Style for the button */
+        button {
+            padding: 8px 12px;
+            margin-top: 10px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Class Scheduler (All-in-One HTML)</h2>
+
+    <div id="sessions">
+        <div class="session" data-time="09:00">HTML Basics - 9:00 AM</div>
+        <div class="session" data-time="10:00">CSS Design - 10:00 AM</div>
+        <div class="session" data-time="11:00">JavaScript Logic - 11:00 AM</div>
+        <div class="session" data-time="12:00">ES6 Modules - 12:00 PM</div>
+    </div>
+
+    <button id="addSessionBtn">Add New Session</button>
+
+    <p id="countdown"></p>
+
+    <script>
+        // --- HELPER LOGIC (from helper.js) ---
+
+        /**
+         * Task 3: Formats time in seconds into a MM:SS string
+         */
+        function formatTime(timeInSeconds) {
+            const minutes = Math.floor(timeInSeconds / 60);
+            const seconds = timeInSeconds % 60;
+            const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+            return `${minutes}:${formattedSeconds}`;
+        }
+
+        /**
+         * Helper function to create a new session element
+         */
+        function createSessionElement(title, time) {
+            const newSession = document.createElement('div');
+            newSession.className = 'session';
+            newSession.dataset.time = time; // e.g., "14:00"
+
+            const [hour, minute] = time.split(':');
+            const hourInt = parseInt(hour);
+            const ampm = hourInt >= 12 ? 'PM' : 'AM';
+            const displayHour = hourInt % 12 === 0 ? 12 : hourInt % 12;
+
+            newSession.textContent = `${title} - ${displayHour}:${minute} ${ampm}`;
+            return newSession;
+        }
+
+        // --- TIMER LOGIC (from timer.js) ---
+
+        /**
+         * Function to start a countdown timer
+         * Task 2: Modified to change color when time < 60 seconds
+         */
+        function startCountdown(duration, display) {
+            let time = duration; 
+
+            const timer = setInterval(() => {
+                const formattedDisplay = formatTime(time);
+                display.textContent = `Next session starts in ${formattedDisplay}`;
+
+                // Task 2: Change color if less than 1 minute
+                if (time < 60) {
+                    display.style.color = 'red';
+                } else {
+                    display.style.color = 'black';
+                }
+
+                time--; 
+
+                if (time < 0) {
+                    clearInterval(timer);
+                    display.textContent = "Session Started!";
+                    display.style.color = 'black';
+                }
+            }, 1000); 
+        }
+
+        /**
+         * Function to highlight the currently active session
+         */
+        function highlightActiveSession() {
+            const sessions = document.querySelectorAll('.session');
+            const now = new Date();
+            const currentHour = now.getHours(); // 24-hour format
+
+            sessions.forEach(session => {
+                const hour = parseInt(session.dataset.time.split(':')[0]);
+                if (hour === currentHour) {
+                    session.classList.add('active');
+                } else {
+                    session.classList.remove('active');
+                }
+            });
+        }
+
+        // --- UI LOGIC (from ui.js) ---
+
+        /**
+         * Function to change UI based on screen size
+         * Task 4: Added font size change for width < 500px
+         */
+        function handleViewportChange() {
+            // Task 4: Change font size
+            if (window.innerWidth < 500) {
+                document.body.style.fontSize = '14px';
+            } else {
+                document.body.style.fontSize = '16px'; // Default size
+            }
+
+            // Original: Change background color
+            if (window.innerWidth < 600) {
+                document.body.style.background = '#f0f8ff';
+            } else {
+                document.body.style.background = 'white';
+            }
+        }
+
+        /**
+         * Function to add dynamic behavior (event delegation)
+         */
+        function addDynamicSessions() {
+            const sessionsDiv = document.getElementById('sessions');
+            sessionsDiv.addEventListener('click', (e) => {
+                if (e.target.classList.contains('session')) {
+                    alert("You selected: " + e.target.textContent);
+                }
+            });
+        }
+
+        /**
+         * Task 1: Function to handle the "Add Session" button
+         */
+        function setupAddButton() {
+            const sessionsDiv = document.getElementById('sessions');
+            const addBtn = document.getElementById('addSessionBtn');
+
+            addBtn.addEventListener('click', () => {
+                const title = prompt("Enter session title:", "New Session");
+                const time = prompt("Enter session time (HH:MM, 24-hr format):", "14:00");
+
+                if (title && time) {
+                    const newSession = createSessionElement(title, time);
+                    sessionsDiv.appendChild(newSession);
+                }
+            });
+        }
+
+        // --- INITIALIZATION (from main.js) ---
+        
+        // This code runs once the DOM is loaded and all functions above are defined.
+        
+        // 1. Setup Countdown Timer
+        const countdownDisplay = document.getElementById('countdown');
+        startCountdown(300, countdownDisplay); // 5 minute countdown
+
+        // 2. Setup Active Session Highlighting
+        setInterval(highlightActiveSession, 10000); // Check every 10 seconds
+        highlightActiveSession(); // Run once on load
+
+        // 3. Setup Responsive Behavior
+        window.addEventListener('resize', handleViewportChange);
+        handleViewportChange(); // Run on page load
+
+        // 4. Setup Event Delegation
+        addDynamicSessions();
+
+        // 5. Task 1: Setup the "Add Session" button
+        setupAddButton();
+
+    </script>
+</body>
+</html>
